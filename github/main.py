@@ -35,7 +35,7 @@ class Github:
         self.sdk.log("/help handler fired with payload {}".format(payload))
         await self.sdk.send_to_chat(
             payload["chat"],
-            "fuck you"
+            "I can`t help you."
         )
 
 if __name__ == "__main__":
