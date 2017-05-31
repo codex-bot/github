@@ -1,0 +1,29 @@
+##
+# Main URL for services callbacks
+# Should use https protocol
+##
+URL = ''
+
+# Unique application name in lowercase
+APPLICATION_NAME = ''
+
+# HTTP server settings
+SERVER = {
+    'host': '127.0.0.1',
+    'port': 1333
+}
+
+# RabbitMQ server settings
+RABBITMQ = {
+    'host': '127.0.0.1',
+}
+
+# MongoDB
+DB = {
+    'name': 'cdx-github',
+    'host': '127.0.0.1',
+    'port': 27017
+}
+
+# Token got from App Manager
+APPLICATION_TOKEN = ''
