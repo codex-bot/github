@@ -59,7 +59,7 @@ class Github:
         )
 
     async def start(self, payload):
-        self.sdk.log("/help handler fired with payload {}".format(payload))
+        self.sdk.log("/start handler fired with payload {}".format(payload))
 
         message = "Чтобы подключить репозиторий, выполните следующие шаги.\n\n" \
                   "1) Откройте настройки вашего репозитория.\n\n" \
