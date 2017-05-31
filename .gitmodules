@@ -1,0 +1,3 @@
+[submodule "github/sdk"]
+	path = github/sdk
+	url = git@github.com:codex-bot/sdk-python.git

@@ -2,7 +2,7 @@
 # Main URL for services callbacks
 # Should use https protocol
 ##
-URL = 'https://67225ea5.ngrok.io'
+URL = 'https://57f49d68.ngrok.io'
 
 # HTTP server settings
 SERVER = {
@@ -14,3 +14,13 @@ SERVER = {
 RABBITMQ = {
     'host': '127.0.0.1',
 }
+
+# MongoDB
+DB = {
+    'name': 'default',
+    'host': '127.0.0.1',
+    'port': 27017
+}
+
+# Token got from App Manager
+APPLICATION_TOKEN = "8AQFROA7"
