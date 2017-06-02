@@ -37,9 +37,6 @@ class Github:
             'push': EventPush(self.sdk),
         }
 
-        print(request['headers'])
-        print(request)
-
         if event_name not in events:
             self.sdk.log("Github webhook callback: unsupported event taken: {}".format(event_name))
             return {
