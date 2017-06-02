@@ -1,12 +1,6 @@
-import random
-import string
-from time import time
-
 import logging
 from sdk.codexbot_sdk import CodexBot
 from config import APPLICATION_TOKEN, APPLICATION_NAME, DB, URL, SERVER
-
-from github.sdk.lib.server import http_response
 
 
 class Github:
@@ -78,7 +72,7 @@ class Github:
             message
         )
 
-    @http_response
+    @CodexBot.http_response
     async def github_callback_handler(self, result):
         logging.debug(result)
         return {'text': '', 'status': 200}
