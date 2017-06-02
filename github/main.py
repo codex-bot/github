@@ -1,7 +1,4 @@
-import random
-import string
-from time import time
-
+import logging
 from sdk.codexbot_sdk import CodexBot
 from config import APPLICATION_TOKEN, APPLICATION_NAME, DB, URL, SERVER
 
@@ -20,7 +17,7 @@ class Github:
         ])
 
         self.sdk.set_routes([
-            # ('POST', '/github/{user_token}', self.github_route_handler)
+            ('POST', '/github/{user_token}', self.github_callback_handler)
         ])
 
         self.sdk.start_server()
@@ -74,6 +71,11 @@ class Github:
             payload["chat"],
             message
         )
+
+    @CodexBot.http_response
+    async def github_callback_handler(self, result):
+        logging.debug(result)
+        return {'text': '', 'status': 200}
 
 if __name__ == "__main__":
     github = Github()
