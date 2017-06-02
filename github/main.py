@@ -15,8 +15,8 @@ class Github:
         self.sdk.log("Github module initialized")
 
         self.sdk.register_commands([
-            ('github_help', 'help', CommandHelp(self.sdk).help),
-            ('github_start', 'start', CommandStart(self.sdk).start)
+            ('github_help', 'help', CommandHelp(sdk=self.sdk).help),
+            ('github_start', 'start', CommandStart(sdk=self.sdk).start)
         ])
 
         self.sdk.set_routes([
@@ -27,7 +27,13 @@ class Github:
 
     @CodexBot.http_response
     async def github_callback_handler(self, result):
-        EventPing(self.sdk).process(result['headers'])
+        events = {
+            'ping': EventPing(sdk=self.sdk, headers=result['headers']).process
+        }
+
+        event = 'ping'
+        events[event]()
+
         return {'text': '', 'status': 200}
 
 if __name__ == "__main__":

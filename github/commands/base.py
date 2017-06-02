@@ -1,4 +1,4 @@
 class CommandBase:
 
-    def __init__(self, sdk):
-        self.sdk = sdk
+    def __init__(self, *args, **kwargs):
+        self.sdk = kwargs['sdk']
