@@ -23,6 +23,8 @@ class Github:
             ('POST', '/github/{user_token}', self.github_callback_handler)
         ])
 
+        self.sdk.set_path_to_static('/img', 'static/img')
+
         self.sdk.start_server()
 
     @CodexBot.http_response
