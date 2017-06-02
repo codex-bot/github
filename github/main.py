@@ -5,6 +5,8 @@ from commands.help import CommandHelp
 from commands.start import CommandStart
 from events.ping import EventPing
 
+from events.push import EventPush
+
 
 class Github:
 
@@ -26,9 +28,30 @@ class Github:
         self.sdk.start_server()
 
     @CodexBot.http_response
-    async def github_callback_handler(self, result):
-        EventPing(self.sdk).process(result['headers'])
-        return {'text': '', 'status': 200}
+    async def github_callback_handler(self, request):
+
+        event_name = request['headers']['X-Github-Event']
+
+        events = {
+            'ping': EventPing(self.sdk),
+            'push': EventPush(self.sdk),
+        }
+
+        print(request['headers'])
+        print(request)
+
+        if event_name not in events:
+            self.sdk.log("Github webhook callback: unsupported event taken: {}".format(event_name))
+            return {
+                'status': 404
+            }
+
+        events[event_name].process(request['text'])
+
+        return {
+            'text': 'OK',
+            'status': 200
+        }
 
 if __name__ == "__main__":
     github = Github()
