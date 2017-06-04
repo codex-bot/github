@@ -8,9 +8,9 @@ from .base import EventBase
 
 class EventIssues(EventBase):
 
-    action = None
     issue = None
     repository = None
+    sender = None
 
     """
     IssuesEvent
@@ -37,7 +37,7 @@ class EventIssues(EventBase):
             self.sender = User(payload['sender'])
 
         except Exception as e:
-            self.sdk.log('Cannot process IssuesEvent payload')
+            self.sdk.log('Cannot process IssuesEvent payload because of {}'.format(e))
 
         action = payload['action']
 
