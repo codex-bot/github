@@ -2,16 +2,10 @@ import random
 import string
 from time import time
 
-from github.config import URL
+from github.config import URL, USERS_COLLECTION_NAME
 from .base import CommandBase
 
 class CommandStart(CommandBase):
-
-    """
-    We will store user-to-chat linking in this collection
-    _id | chat | user | dt_register
-    """
-    USERS_COLLECTION_NAME = 'users'
 
     @staticmethod
     def generate_user_token():
@@ -21,7 +15,7 @@ class CommandStart(CommandBase):
     async def start(self, payload):
         self.sdk.log("/start handler fired with payload {}".format(payload))
 
-        registered_chat = self.sdk.db.find_one(self.USERS_COLLECTION_NAME, {'chat': payload['chat']})
+        registered_chat = self.sdk.db.find_one(USERS_COLLECTION_NAME, {'chat': payload['chat']})
 
         if registered_chat:
             user_token = registered_chat['user']
@@ -32,7 +26,7 @@ class CommandStart(CommandBase):
                 'user': user_token,
                 'dt_register': time()
             }
-            self.sdk.db.insert(self.USERS_COLLECTION_NAME, new_chat)
+            self.sdk.db.insert(USERS_COLLECTION_NAME, new_chat)
             self.sdk.log("New user registered with token {}".format(user_token))
 
         link = "{}/github/{}".format(URL, user_token)
