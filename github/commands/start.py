@@ -4,7 +4,6 @@ from time import time
 
 from github.config import URL
 from .base import CommandBase
-from github.config import URL
 
 class CommandStart(CommandBase):
 
