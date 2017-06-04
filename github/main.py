@@ -4,7 +4,6 @@ from config import APPLICATION_TOKEN, APPLICATION_NAME, DB, URL, SERVER
 from commands.help import CommandHelp
 from commands.start import CommandStart
 from events.ping import EventPing
-
 from events.push import EventPush
 
 
