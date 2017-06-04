@@ -34,11 +34,6 @@ class Repository:
         # Owner represented as User
         self.owner = User(data['owner'])
 
-        # Who closed
-        self.closed_by = None
-        if 'closed_by' in data:
-            self.closed_by = User(data['closed_by'])
-
         self.private = data.get('private', 'false')
         self.git_url = data.get('git_url', '')
         self.clone_url = data.get('clone_url', '')
