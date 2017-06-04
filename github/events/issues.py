@@ -1,5 +1,8 @@
+import html
+
 from github.data_types.issue import Issue
 from github.data_types.repository import Repository
+from github.data_types.user import User
 from .base import EventBase
 
 
@@ -28,12 +31,10 @@ class EventIssues(EventBase):
 
         self.sdk.log("Issues event payload taken")
 
-        # Store chat_id to use it next in action handlers
-        self.chat_id = chat_id
-
         try:
             self.issue = Issue(payload['issue'])
             self.repository = Repository(payload['repository'])
+            self.sender = User(payload['sender'])
 
         except Exception as e:
             self.sdk.log('Cannot process IssuesEvent payload')
@@ -42,60 +43,85 @@ class EventIssues(EventBase):
 
         available_actions = {
             'opened': self.opened,
-            'closed': self.closed
+            'closed': self.closed,
+            'assigned': self.assigned
         }
 
         if action not in available_actions:
             self.sdk.log('Unsupported Issues action: {}'.format(action))
 
         # call action handler
-        await available_actions[action]()
+        await available_actions[action](chat_id, payload)
 
-        # author = self.data['sender']['login']
-        # issue = self.data['issue']
-        # action = self.data['action']
-        # repository_name = self.data['repository']['full_name']
-        #
-        # if action == "opened" or action == "closed":
-        #     template.append("{} {} {} {}issue «<code>{}</code>» [<a href=\"{}\">{}</a>]".format(
-        #         "👉" if action == "opened" else "✅",
-        #         author,
-        #         action,
-        #         "new " if action == "opened" else "",
-        #         issue['title'],
-        #         'https://github.com/' + repository_name,
-        #         repository_name
-        #     ))
-        #     template.append("\n%s\n" % html.escape(issue['body'])) if len(issue['body']) else template.append("")
-        #     template.append("%s\n" % issue['html_url'])
-        #
-        # if action == 'assigned':
-        #     assignee = self.data['assignee']['login']
-        #
-        #     template.append(
-        #         '📌 {assignee} has been assigned to the issue «<code>{issue_title}</code>» by {author} [{repository_name}]'.format(
-        #             author=author,
-        #             assignee=assignee,
-        #             issue_title=issue['title'],
-        #             repository_name=repository_name
-        #         ))
-        #     template.append('')
-        #     template.append(issue['html_url'])
+    async def opened(self, chat_id, payload):
+        """
+        Issue opened action
+        :param chat_id: Current user chat token
+        :param payload: GitHub payload
+        :return:
+        """
 
-        # return '\n'.join(template)
+        message = "{} opened new issue «<code>{}</code>» [<a href=\"{}\">{}</a>]".format(
+                        self.sender.login,
+                        self.issue.title,
+                        self.repository.html_url,
+                        self.repository.name
+                    ) + "\n\n"
 
-    async def opened(self):
-        print('opened')
+        if len(self.issue.body):
+            message += html.escape(self.issue.body) + "\n\n"
+
+        message += self.issue.html_url
 
         await self.sdk.send_to_chat(
-            self.chat_id,
-            "Issue opened"
+            chat_id,
+            message
         )
 
-    async def closed(self):
-        print('closed')
+    async def closed(self, chat_id, payload):
+        """
+        Close issue action
+        :param chat_id: Current user chat token
+        :param payload: GitHub payload
+        :return:
+        """
+        message = "{} closes issue «<code>{}</code>» [<a href=\"{}\">{}</a>]".format(
+            self.sender.login,
+            self.issue.title,
+            self.repository.html_url,
+            self.repository.name
+        ) + "\n\n"
+
+        if len(self.issue.body):
+            message += html.escape(self.issue.body) + "\n\n"
+
+        message += self.issue.html_url
 
         await self.sdk.send_to_chat(
-            self.chat_id,
-            "Issue closed"
+            chat_id,
+            message
+        )
+
+    async def assigned(self, chat_id, payload):
+        """
+        Issue assigned action
+        :param chat_id: Current user chat token
+        :param payload: GitHub payload
+        :return:
+        """
+
+        assignee = User(payload['assignee'])
+
+        message = "{assignee} has been assigned to the issue «<code>{issue_title}</code>» by {author} [{repository_name}]".format(
+            assignee=assignee.login,
+            author=self.sender.login,
+            issue_title=self.issue.title,
+            repository_name=self.repository.name
+        ) + "\n\n"
+
+        message += self.issue.html_url
+
+        await self.sdk.send_to_chat(
+            chat_id,
+            message
         )
