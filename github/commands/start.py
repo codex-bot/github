@@ -4,7 +4,7 @@ from time import time
 
 from github.config import URL
 from .base import CommandBase
-
+from github.config import URL
 
 class CommandStart(CommandBase):
 
@@ -38,13 +38,24 @@ class CommandStart(CommandBase):
 
         link = "{}/github/{}".format(URL, user_token)
 
-        message = "Чтобы подключить репозиторий, выполните следующие шаги.\n" \
-                  "\n" \
-                  "1) Откройте настройки вашего репозитория.\n" \
-                  "\n" \
-                  "2) Зайдите в раздел Webhooks & services и нажмите кнопку Add Webhook.\n" \
-                  "\n" \
-                  "3) Вставьте в поле Payload URL следующую ссылку.\n{}\n" \
+        await self.sdk.send_to_chat(
+            payload["chat"],
+            "Чтобы подключить репозиторий, выполните следующие шаги."
+        )
+
+        await self.sdk.send_image_to_chat(
+            payload['chat'],
+            photo='{}/img/step_1.jpg'.format(URL),
+            caption="1) Откройте настройки вашего репозитория."
+        )
+
+        await self.sdk.send_image_to_chat(
+            payload['chat'],
+            photo='{}/img/step_2.jpg'.format(URL),
+            caption="2) Зайдите в раздел Webhooks & services и нажмите кнопку Add Webhook."
+        )
+
+        message = "3) Вставьте в поле Payload URL следующую ссылку.\n{}\n" \
                   "\n" \
                   "4) В поле «Which events would you like to trigger this webhook?» выберите " \
                   "«Let me select individual events» и отметьте следующие флажки: \n" \
@@ -60,3 +71,4 @@ class CommandStart(CommandBase):
             payload["chat"],
             message
         )
+
