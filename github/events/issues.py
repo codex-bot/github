@@ -49,6 +49,7 @@ class EventIssues(EventBase):
 
         if action not in available_actions:
             self.sdk.log('Unsupported Issues action: {}'.format(action))
+            return
 
         # call action handler
         await available_actions[action](chat_id, payload)
