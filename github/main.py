@@ -1,3 +1,4 @@
+import json
 import logging
 from sdk.codexbot_sdk import CodexBot
 from config import APPLICATION_TOKEN, APPLICATION_NAME, DB, URL, SERVER
@@ -5,6 +6,8 @@ from commands.help import CommandHelp
 from commands.start import CommandStart
 from events.ping import EventPing
 from events.push import EventPush
+from events.issues import EventIssues
+from github.config import USERS_COLLECTION_NAME
 
 
 class Github:
@@ -31,11 +34,30 @@ class Github:
     @CodexBot.http_response
     async def github_callback_handler(self, request):
 
+        # Check for route-token passed
+        if 'user_token' not in request['params']:
+            self.sdk.log("GitHub route handler: user_token is missed")
+            return {
+                'status': 404
+            }
+
+        # Get user data from DB by user token passed in URL
+        user_token = request['params']['user_token']
+        registered_chat = self.sdk.db.find_one(USERS_COLLECTION_NAME, {'user': user_token})
+
+        # Check if chat was registered
+        if not registered_chat or 'chat' not in registered_chat:
+            self.sdk.log("GitHub route handler: wrong user token passed")
+            return {
+                'status': 404
+            }
+
         event_name = request['headers']['X-Github-Event']
 
         events = {
             'ping': EventPing(self.sdk),
             'push': EventPush(self.sdk),
+            'issues': EventIssues(self.sdk)
         }
 
         if event_name not in events:
@@ -44,12 +66,25 @@ class Github:
                 'status': 404
             }
 
-        events[event_name].process(request['text'])
+        try:
+            # GitHub always pass JSON as request body
+            payload = json.loads(request['text'])
 
-        return {
-            'text': 'OK',
-            'status': 200
-        }
+            # Call event handler
+            await events[event_name].process(payload, registered_chat['chat'])
+
+            return {
+                'text': 'OK',
+                'status': 200
+            }
+
+        except Exception as e:
+            self.sdk.log('Cannot handle request from GitHub: {}'.format(e))
+            return {
+                'status': 404
+            }
+
+
 
 if __name__ == "__main__":
     github = Github()
