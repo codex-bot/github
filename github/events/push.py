@@ -72,6 +72,7 @@ class EventPush(EventBase):
 
         for commit in self.commits:
 
+            # Append commits messages
             message += '* {}\n'.format(commit.message)
 
             if len(commit.added):
