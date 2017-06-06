@@ -1,5 +1,4 @@
 from github.data_types.commit import Commit
-from github.data_types.issue import Issue
 from github.data_types.repository import Repository
 from github.data_types.user import User
 from .base import EventBase
