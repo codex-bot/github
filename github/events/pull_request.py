@@ -137,7 +137,6 @@ class EventPullRequest(EventBase):
         :return:
         """
 
-        print(payload)
         message = "{name} requested review for pull request «<code>{title}</code>» " \
                   "[<a href=\"{repository_url}\">{repository_name}</a>]".format(
                     name=self.sender.login,
