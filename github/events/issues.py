@@ -100,7 +100,8 @@ class EventIssues(EventBase):
 
         await self.sdk.send_to_chat(
             chat_id,
-            message
+            message,
+            'HTML'
         )
 
     async def assigned(self, chat_id, payload):
@@ -113,16 +114,18 @@ class EventIssues(EventBase):
 
         assignee = User(payload['assignee'])
 
-        message = "{assignee} has been assigned to the issue «<code>{issue_title}</code>» by {author} [{repository_name}]".format(
-            assignee=assignee.login,
-            author=self.sender.login,
-            issue_title=self.issue.title,
-            repository_name=self.repository.name
+        message = "{assignee} has been assigned to the issue «<code>{issue_title}</code>» " \
+                  "by {author} [{repository_name}]".format(
+                    assignee=assignee.login,
+                    author=self.sender.login,
+                    issue_title=self.issue.title,
+                    repository_name=self.repository.name
         ) + "\n\n"
 
         message += self.issue.html_url
 
         await self.sdk.send_to_chat(
             chat_id,
-            message
+            message,
+            'HTML'
         )

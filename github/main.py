@@ -8,6 +8,7 @@ from events.ping import EventPing
 from events.push import EventPush
 from events.issues import EventIssues
 from github.config import USERS_COLLECTION_NAME
+from github.events.pull_request import EventPullRequest
 
 
 class Github:
@@ -57,7 +58,8 @@ class Github:
         events = {
             'ping': EventPing(self.sdk),
             'push': EventPush(self.sdk),
-            'issues': EventIssues(self.sdk)
+            'issues': EventIssues(self.sdk),
+            'pull_request': EventPullRequest(self.sdk)
         }
 
         if event_name not in events:
