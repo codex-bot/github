@@ -31,7 +31,7 @@ class CommandStart(CommandBase):
 
         link = "{}/github/{}".format(URL, user_token)
 
-        await self.sdk.send_to_chat(
+        await self.sdk.send_text_to_chat(
             payload["chat"],
             "Чтобы подключить репозиторий, выполните следующие шаги."
         )
@@ -60,7 +60,7 @@ class CommandStart(CommandBase):
                   "\n" \
                   "6) Нажмите на кнопку «Add Webhook».".format(link)
 
-        await self.sdk.send_to_chat(
+        await self.sdk.send_text_to_chat(
             payload["chat"],
             message
         )
