@@ -1,8 +1,8 @@
 import html
 
-from github.data_types.issue import Issue
-from github.data_types.repository import Repository
-from github.data_types.user import User
+from data_types.issue import Issue
+from data_types.repository import Repository
+from data_types.user import User
 from .base import EventBase
 
 

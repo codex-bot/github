@@ -1,4 +1,4 @@
-from github.data_types.user import User
+from data_types.user import User
 
 
 class Commit:

@@ -2,7 +2,7 @@ import random
 import string
 from time import time
 
-from github.config import URL, USERS_COLLECTION_NAME
+from config import URL, USERS_COLLECTION_NAME
 from .base import CommandBase
 
 class CommandStart(CommandBase):

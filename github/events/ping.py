@@ -1,6 +1,6 @@
-from github.data_types.hook import Hook
-from github.data_types.repository import Repository
-from github.data_types.user import User
+from data_types.hook import Hook
+from data_types.repository import Repository
+from data_types.user import User
 from .base import EventBase
 
 
