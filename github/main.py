@@ -7,8 +7,8 @@ from commands.start import CommandStart
 from events.ping import EventPing
 from events.push import EventPush
 from events.issues import EventIssues
-from github.config import USERS_COLLECTION_NAME
-from github.events.pull_request import EventPullRequest
+from config import USERS_COLLECTION_NAME
+from events.pull_request import EventPullRequest
 
 
 class Github:
