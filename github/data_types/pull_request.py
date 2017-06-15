@@ -1,6 +1,6 @@
-from github.data_types.branch import Branch
-from github.data_types.repository import Repository
-from github.data_types.user import User
+from data_types.branch import Branch
+from data_types.repository import Repository
+from data_types.user import User
 
 
 class PullRequest:

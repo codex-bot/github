@@ -1,6 +1,6 @@
-from github.data_types.commit import Commit
-from github.data_types.repository import Repository
-from github.data_types.user import User
+from data_types.commit import Commit
+from data_types.repository import Repository
+from data_types.user import User
 from .base import EventBase
 
 

@@ -1,8 +1,8 @@
 import html
 
-from github.data_types.pull_request import PullRequest
-from github.data_types.repository import Repository
-from github.data_types.user import User
+from data_types.pull_request import PullRequest
+from data_types.repository import Repository
+from data_types.user import User
 from .base import EventBase
 
 
