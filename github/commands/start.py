@@ -12,7 +12,7 @@ class CommandStart(CommandBase):
         return ''.join(random.SystemRandom().choice(string.ascii_uppercase + string.digits) for _ in range(8))
 
 
-    async def start(self, payload):
+    async def __call__(self, payload):
         self.sdk.log("/start handler fired with payload {}".format(payload))
 
         registered_chat = self.sdk.db.find_one(USERS_COLLECTION_NAME, {'chat': payload['chat']})

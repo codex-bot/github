@@ -20,8 +20,11 @@ class Github:
         self.sdk.log("Github module initialized")
 
         self.sdk.register_commands([
-            ('github_help', 'help', CommandHelp(self.sdk).help),
-            ('github_start', 'start', CommandStart(self.sdk).start)
+            ('github',
+             'GitHub app. Allows you receive notices about new issues, commits and pull-requests.',
+             CommandHelp(self.sdk)),
+            ('github_help', 'help', CommandHelp(self.sdk)),
+            ('github_start', 'start', CommandStart(self.sdk))
         ])
 
         self.sdk.set_routes([
