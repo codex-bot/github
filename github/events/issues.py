@@ -74,7 +74,7 @@ class EventIssues(EventBase):
 
         message += self.issue.html_url
 
-        await self.sdk.send_to_chat(
+        await self.sdk.send_text_to_chat(
             chat_id,
             message
         )
@@ -98,7 +98,7 @@ class EventIssues(EventBase):
 
         message += self.issue.html_url
 
-        await self.sdk.send_to_chat(
+        await self.sdk.send_text_to_chat(
             chat_id,
             message,
             'HTML'
@@ -124,7 +124,7 @@ class EventIssues(EventBase):
 
         message += self.issue.html_url
 
-        await self.sdk.send_to_chat(
+        await self.sdk.send_text_to_chat(
             chat_id,
             message,
             'HTML'

@@ -40,7 +40,7 @@ class EventPing(EventBase):
         except Exception as e:
             self.sdk.log('Cannot process PingEvent payload because of {}'.format(e))
 
-        await self.sdk.send_to_chat(
+        await self.sdk.send_text_to_chat(
             chat_id,
             'Repository {} successfully linked. Boom.'.format(self.repository.full_name)
         )
