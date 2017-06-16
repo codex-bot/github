@@ -3,7 +3,7 @@ from .base import CommandBase
 
 class CommandHelp(CommandBase):
 
-    async def help(self, payload):
+    async def __call__(self, payload):
         self.sdk.log("/help handler fired with payload {}".format(payload))
 
         message = "Модуль для работы с сервисом GitHub.\n\n" \
