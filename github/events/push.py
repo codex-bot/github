@@ -101,5 +101,6 @@ class EventPush(EventBase):
 
         await self.sdk.send_text_to_chat(
             chat_id,
-            message
+            message,
+            'HTML'
         )

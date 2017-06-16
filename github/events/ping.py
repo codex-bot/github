@@ -42,7 +42,6 @@ class EventPing(EventBase):
 
         await self.sdk.send_text_to_chat(
             chat_id,
-            'Repository {} successfully linked. Boom.'.format(self.repository.full_name)
+            'Repository {} successfully linked. Boom.'.format(self.repository.full_name),
+            'HTML'
         )
-
-
