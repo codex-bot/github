@@ -94,7 +94,7 @@ class EventPullRequest(EventBase):
 
         message += self.pull_request.html_url
 
-        await self.sdk.send_to_chat(
+        await self.sdk.send_text_to_chat(
             chat_id,
             message,
             'HTML'
@@ -123,7 +123,7 @@ class EventPullRequest(EventBase):
 
         message += self.pull_request.html_url
 
-        await self.sdk.send_to_chat(
+        await self.sdk.send_text_to_chat(
             chat_id,
             message,
             'HTML'
@@ -155,7 +155,7 @@ class EventPullRequest(EventBase):
 
         message += '\n' + self.pull_request.html_url
 
-        await self.sdk.send_to_chat(
+        await self.sdk.send_text_to_chat(
             chat_id,
             message,
             'HTML'

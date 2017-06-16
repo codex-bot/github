@@ -99,7 +99,7 @@ class EventPush(EventBase):
 
         message += '\n ' + payload['compare']
 
-        await self.sdk.send_to_chat(
+        await self.sdk.send_text_to_chat(
             chat_id,
             message
         )
