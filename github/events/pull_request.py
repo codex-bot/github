@@ -26,7 +26,7 @@ class EventPullRequest(EventBase):
 
     async def process(self, payload, chat_id):
         """
-        Processes Issues event
+        Processes Pull Request event
         :param payload: JSON object with payload
             action  string      - Can be one of "assigned", "unassigned", "review_requested", "review_request_removed",
                                 "labeled", "unlabeled", "opened", "edited", "closed", or "reopened".
