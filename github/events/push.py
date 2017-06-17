@@ -59,7 +59,7 @@ class EventPush(EventBase):
 
         # Start building message
 
-        message = '{} pushed {} {} to {} \n\n'.format(
+        message = '👊 {} pushed {} {} to {} \n\n'.format(
             self.sender.login,
             len(self.commits),
             "commits" if len(self.commits) > 1 else "commit",
