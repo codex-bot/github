@@ -8,9 +8,11 @@ from .base import EventBase
 
 class EventPullRequest(EventBase):
 
-    pull_request = None
-    repository = None
-    sender = None
+    def __init__(self, sdk):
+        self.pull_request = None
+        self.repository = None
+        self.sender = None
+        self.sdk = sdk
 
     """
     PullRequestEvent

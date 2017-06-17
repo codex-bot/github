@@ -8,9 +8,11 @@ from .base import EventBase
 
 class EventIssues(EventBase):
 
-    issue = None
-    repository = None
-    sender = None
+    def __init__(self, sdk):
+        self.issue = None
+        self.repository = None
+        self.sender = None
+        self.sdk = sdk
 
     """
     IssuesEvent
