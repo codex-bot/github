@@ -8,9 +8,11 @@ from .base import EventBase
 
 class EventIssues(EventBase):
 
-    issue = None
-    repository = None
-    sender = None
+    def __init__(self, sdk):
+        self.issue = None
+        self.repository = None
+        self.sender = None
+        self.sdk = sdk
 
     """
     IssuesEvent
@@ -62,7 +64,7 @@ class EventIssues(EventBase):
         :return:
         """
 
-        message = "{} opened new issue «<code>{}</code>» [<a href=\"{}\">{}</a>]".format(
+        message = "✏️ {} opened new issue «<code>{}</code>» [<a href=\"{}\">{}</a>]".format(
                         self.sender.login,
                         self.issue.title,
                         self.repository.html_url,
@@ -87,7 +89,7 @@ class EventIssues(EventBase):
         :param payload: GitHub payload
         :return:
         """
-        message = "{} closes issue «<code>{}</code>» [<a href=\"{}\">{}</a>]".format(
+        message = "✅ {} closes issue «<code>{}</code>» [<a href=\"{}\">{}</a>]".format(
             self.sender.login,
             self.issue.title,
             self.repository.html_url,
@@ -115,7 +117,7 @@ class EventIssues(EventBase):
 
         assignee = User(payload['assignee'])
 
-        message = "{assignee} has been assigned to the issue «<code>{issue_title}</code>» " \
+        message = "📌 {assignee} has been assigned to the issue «<code>{issue_title}</code>» " \
                   "by {author} [{repository_name}]".format(
                     assignee=assignee.login,
                     author=self.sender.login,

@@ -6,9 +6,11 @@ from .base import EventBase
 
 class EventPush(EventBase):
 
-    repository = None
-    sender = None
-    commits = []
+    def __init__(self, sdk):
+        self.repository = None
+        self.sender = None
+        self.commits = []
+        self.sdk = sdk
 
     """
     PushEvent
@@ -57,7 +59,7 @@ class EventPush(EventBase):
 
         # Start building message
 
-        message = '{} pushed {} {} to {} \n\n'.format(
+        message = '👊 {} pushed {} {} to {} \n\n'.format(
             self.sender.login,
             len(self.commits),
             "commits" if len(self.commits) > 1 else "commit",
@@ -76,11 +78,17 @@ class EventPush(EventBase):
             message += '* {}\n'.format(commit.message)
 
             if len(commit.added):
-                added.extend(commit.added)
+                for added_file in commit.added:
+                    if added_file not in added:
+                        added.append(added_file)
             if len(commit.removed):
-                removed.extend(commit.removed)
+                for removed_file in commit.removed:
+                    if removed_file not in removed:
+                        removed.append(removed_file)
             if len(commit.modified):
-                modified.extend(commit.modified)
+                for modified_file in commit.modified:
+                    if modified_file not in modified:
+                        modified.append(modified_file)
 
         if len(added):
             message += '\nNew files: \n'

@@ -8,9 +8,11 @@ from .base import EventBase
 
 class EventPullRequest(EventBase):
 
-    pull_request = None
-    repository = None
-    sender = None
+    def __init__(self, sdk):
+        self.pull_request = None
+        self.repository = None
+        self.sender = None
+        self.sdk = sdk
 
     """
     PullRequestEvent
@@ -78,7 +80,7 @@ class EventPullRequest(EventBase):
         :return:
         """
 
-        message = "{name} opened pull request «<code>{title}</code>» " \
+        message = "😼 {name} opened pull request «<code>{title}</code>» " \
                   "from <b>{head}</b> to <b>{base}</b>" \
                   "[<a href=\"{repository_url}\">{repository_name}</a>]".format(
                     name=self.sender.login,
@@ -107,7 +109,7 @@ class EventPullRequest(EventBase):
         :param payload: GitHub payload
         :return:
         """
-        message = "{name} closed pull request «<code>{title}</code>» " \
+        message = "😾 {name} closed pull request «<code>{title}</code>» " \
                   "from <b>{head}</b> to <b>{base}</b>" \
                   "[<a href=\"{repository_url}\">{repository_name}</a>]".format(
                     name=self.sender.login,
@@ -137,7 +139,7 @@ class EventPullRequest(EventBase):
         :return:
         """
 
-        message = "{name} requested review for pull request «<code>{title}</code>» " \
+        message = "🙀 {name} requested review for pull request «<code>{title}</code>» " \
                   "[<a href=\"{repository_url}\">{repository_name}</a>]".format(
                     name=self.sender.login,
                     title=self.pull_request.title,
@@ -151,7 +153,7 @@ class EventPullRequest(EventBase):
         if len(self.pull_request.requested_reviewers):
             message += 'Reviewers: \n'
             for reviewer in self.pull_request.requested_reviewers:
-                message += reviewer.login + '\n'
+                message += '👉 ' + reviewer.login + '\n'
 
         message += '\n' + self.pull_request.html_url
 

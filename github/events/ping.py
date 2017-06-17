@@ -6,9 +6,11 @@ from .base import EventBase
 
 class EventPing(EventBase):
 
-    hook = None
-    repository = None
-    sender = None
+    def __init__(self, sdk):
+        self.hook = None
+        self.repository = None
+        self.sender = None
+        self.sdk = sdk
 
     """
     PingEvent
@@ -42,6 +44,6 @@ class EventPing(EventBase):
 
         await self.sdk.send_text_to_chat(
             chat_id,
-            'Repository {} successfully linked. Boom.'.format(self.repository.full_name),
+            '👏 Repository {} successfully linked. Boom.'.format(self.repository.full_name),
             'HTML'
         )
