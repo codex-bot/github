@@ -66,7 +66,7 @@ class EventIssues(EventBase):
 
         message = "✏️ {} opened new issue «<code>{}</code>» [<a href=\"{}\">{}</a>]".format(
                         self.sender.login,
-                        self.issue.title,
+                        html.escape(self.issue.title),
                         self.repository.html_url,
                         self.repository.name
                     ) + "\n\n"
@@ -91,7 +91,7 @@ class EventIssues(EventBase):
         """
         message = "✅ {} closes issue «<code>{}</code>» [<a href=\"{}\">{}</a>]".format(
             self.sender.login,
-            self.issue.title,
+            html.escape(self.issue.title),
             self.repository.html_url,
             self.repository.name
         ) + "\n\n"
@@ -121,7 +121,7 @@ class EventIssues(EventBase):
                   "by {author} [{repository_name}]".format(
                     assignee=assignee.login,
                     author=self.sender.login,
-                    issue_title=self.issue.title,
+                    issue_title=html.escape(self.issue.title),
                     repository_name=self.repository.name
         ) + "\n\n"
 

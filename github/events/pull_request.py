@@ -84,7 +84,7 @@ class EventPullRequest(EventBase):
                   "from <b>{head}</b> to <b>{base}</b>" \
                   "[<a href=\"{repository_url}\">{repository_name}</a>]".format(
                     name=self.sender.login,
-                    title=self.pull_request.title,
+                    title=html.escape(self.pull_request.title),
                     head=self.pull_request.head.ref,
                     base=self.pull_request.base.ref,
                     repository_url=self.repository.html_url,
@@ -113,7 +113,7 @@ class EventPullRequest(EventBase):
                   "from <b>{head}</b> to <b>{base}</b>" \
                   "[<a href=\"{repository_url}\">{repository_name}</a>]".format(
                     name=self.sender.login,
-                    title=self.pull_request.title,
+                    title=html.escape(self.pull_request.title),
                     head=self.pull_request.head.ref,
                     base=self.pull_request.base.ref,
                     repository_url=self.repository.html_url,
@@ -142,7 +142,7 @@ class EventPullRequest(EventBase):
         message = "🙀 {name} requested review for pull request «<code>{title}</code>» " \
                   "[<a href=\"{repository_url}\">{repository_name}</a>]".format(
                     name=self.sender.login,
-                    title=self.pull_request.title,
+                    title=html.escape(self.pull_request.title),
                     repository_url=self.repository.html_url,
                     repository_name=self.repository.full_name
         ) + "\n\n"

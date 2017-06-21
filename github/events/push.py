@@ -83,7 +83,7 @@ class EventPush(EventBase):
         for commit in self.commits:
 
             # Append commits messages
-            message += '* {}\n'.format(commit.message)
+            message += html.escape('* {}\n'.format(commit.message))
 
             if len(commit.added):
                 for added_file in commit.added:
@@ -101,17 +101,17 @@ class EventPush(EventBase):
         if len(added):
             message += '\nNew files: \n'
             for file_name in added:
-                message += file_name + '\n'
+                message += html.escape(file_name) + '\n'
 
         if len(removed):
             message += '\nRemoved files: \n'
             for file_name in removed:
-                message += file_name + '\n'
+                message += html.escape(file_name) + '\n'
 
         if len(modified):
             message += '\nModified files: \n'
             for file_name in modified:
-                message += file_name + '\n'
+                message += html.escape(file_name) + '\n'
 
         message += '\n ' + payload['compare']
 
