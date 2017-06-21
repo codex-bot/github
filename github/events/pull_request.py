@@ -147,8 +147,8 @@ class EventPullRequest(EventBase):
                     repository_name=self.repository.full_name
         ) + "\n\n"
 
-        if len(self.pull_request.body):
-            message += html.escape(self.pull_request.body) + "\n\n"
+        # if len(self.pull_request.body):
+        #     message += html.escape(self.pull_request.body) + "\n\n"
 
         if len(self.pull_request.requested_reviewers):
             message += 'Reviewers: \n'

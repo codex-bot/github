@@ -71,8 +71,8 @@ class EventIssues(EventBase):
                         self.repository.name
                     ) + "\n\n"
 
-        if len(self.issue.body):
-            message += html.escape(self.issue.body) + "\n\n"
+        # if len(self.issue.body):
+        #     message += html.escape(self.issue.body) + "\n\n"
 
         message += self.issue.html_url
 
@@ -96,8 +96,8 @@ class EventIssues(EventBase):
             self.repository.name
         ) + "\n\n"
 
-        if len(self.issue.body):
-            message += html.escape(self.issue.body) + "\n\n"
+        # if len(self.issue.body):
+        #     message += html.escape(self.issue.body) + "\n\n"
 
         message += self.issue.html_url
 
