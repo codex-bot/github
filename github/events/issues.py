@@ -89,7 +89,7 @@ class EventIssues(EventBase):
         :param payload: GitHub payload
         :return:
         """
-        message = "✅ {} closes issue «<code>{}</code>» [<a href=\"{}\">{}</a>]".format(
+        message = "☑️ {} closed issue «<code>{}</code>» [<a href=\"{}\">{}</a>]".format(
             self.sender.login,
             html.escape(self.issue.title),
             self.repository.html_url,
