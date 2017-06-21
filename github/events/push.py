@@ -57,6 +57,14 @@ class EventPush(EventBase):
         except Exception as e:
             self.sdk.log('Cannot process PingEvent payload because of {}'.format(e))
 
+        if bool(payload['deleted']):
+            await self.sdk.log('Branch %s has been deleted' % payload['ref'])
+            return
+
+        if bool(payload['created']):
+            await self.sdk.log('Branch %s has been created' % payload['ref'])
+            return
+
         # Start building message
 
         message = '👊 {} pushed {} {} to {} \n\n'.format(
