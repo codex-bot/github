@@ -66,13 +66,13 @@ class EventIssues(EventBase):
 
         message = "✏️ {} opened new issue «<code>{}</code>» [<a href=\"{}\">{}</a>]".format(
                         self.sender.login,
-                        self.issue.title,
+                        html.escape(self.issue.title),
                         self.repository.html_url,
                         self.repository.name
                     ) + "\n\n"
 
-        if len(self.issue.body):
-            message += html.escape(self.issue.body) + "\n\n"
+        # if len(self.issue.body):
+        #     message += html.escape(self.issue.body) + "\n\n"
 
         message += self.issue.html_url
 
@@ -89,15 +89,15 @@ class EventIssues(EventBase):
         :param payload: GitHub payload
         :return:
         """
-        message = "✅ {} closes issue «<code>{}</code>» [<a href=\"{}\">{}</a>]".format(
+        message = "☑️ {} closed issue «<code>{}</code>» [<a href=\"{}\">{}</a>]".format(
             self.sender.login,
-            self.issue.title,
+            html.escape(self.issue.title),
             self.repository.html_url,
             self.repository.name
         ) + "\n\n"
 
-        if len(self.issue.body):
-            message += html.escape(self.issue.body) + "\n\n"
+        # if len(self.issue.body):
+        #     message += html.escape(self.issue.body) + "\n\n"
 
         message += self.issue.html_url
 
@@ -121,7 +121,7 @@ class EventIssues(EventBase):
                   "by {author} [{repository_name}]".format(
                     assignee=assignee.login,
                     author=self.sender.login,
-                    issue_title=self.issue.title,
+                    issue_title=html.escape(self.issue.title),
                     repository_name=self.repository.name
         ) + "\n\n"
 
