@@ -1,3 +1,5 @@
+import html
+
 from data_types.commit import Commit
 from data_types.repository import Repository
 from data_types.user import User
@@ -58,12 +60,13 @@ class EventPush(EventBase):
             self.sdk.log('Cannot process PingEvent payload because of {}'.format(e))
 
         if bool(payload['deleted']):
-            await self.sdk.log('Branch %s has been deleted' % payload['ref'])
+            self.sdk.log('Branch %s has been deleted' % payload['ref'])
             return
 
         if bool(payload['created']):
-            await self.sdk.log('Branch %s has been created' % payload['ref'])
+            self.sdk.log('Branch %s has been created' % payload['ref'])
             return
+
 
         # Start building message
 
