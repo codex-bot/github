@@ -139,23 +139,18 @@ class EventPullRequest(EventBase):
         :return:
         """
 
-        message = "🙀 {name} requested review for pull request «<code>{title}</code>» " \
+        requested_reviewer = self.pull_request.requested_reviewer
+
+        message = "🙀 {name} requested <code>{requested_reviewer}</code>'s review for pull request" \
+                  "«<a href=\"{request_url}\">{request_title}</a>» " \
                   "[<a href=\"{repository_url}\">{repository_name}</a>]".format(
                     name=self.sender.login,
-                    title=html.escape(self.pull_request.title),
+                    requested_reviewer=requested_reviewer.login,
+                    request_url=self.pull_request.html_url,
+                    request_title=html.escape(self.pull_request.title),
                     repository_url=self.repository.html_url,
                     repository_name=self.repository.full_name
-        ) + "\n\n"
-
-        # if len(self.pull_request.body):
-        #     message += html.escape(self.pull_request.body) + "\n\n"
-
-        if len(self.pull_request.requested_reviewers):
-            message += 'Reviewers: \n'
-            for reviewer in self.pull_request.requested_reviewers:
-                message += '👉 ' + reviewer.login + '\n'
-
-        message += '\n' + self.pull_request.html_url
+        )
 
         await self.sdk.send_text_to_chat(
             chat_id,
