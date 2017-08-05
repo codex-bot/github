@@ -94,6 +94,6 @@ class PullRequest:
             for reviewer in data['requested_reviewers']:
                 self.requested_reviewers.append(User(reviewer))
 
-        self.requested_reviewers = None
+        self.requested_reviewer = None
         if 'requested_reviewer' in data:
             self.requested_reviewer = User(data['requested_reviewer'])
