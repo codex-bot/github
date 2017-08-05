@@ -150,10 +150,8 @@ class EventPullRequest(EventBase):
         # if len(self.pull_request.body):
         #     message += html.escape(self.pull_request.body) + "\n\n"
 
-        if len(self.pull_request.requested_reviewers):
-            message += 'Reviewers: \n'
-            for reviewer in self.pull_request.requested_reviewers:
-                message += '👉 ' + reviewer.login + '\n'
+        if len(self.pull_request.requested_reviewer):
+            message += '👉 ' + self.pull_request.requested_reviewer + '\n'
 
         message += '\n' + self.pull_request.html_url
 
