@@ -141,7 +141,7 @@ class EventPullRequest(EventBase):
 
         requested_reviewer = self.pull_request.requested_reviewer
 
-        message = "🙀 {name} requested <code>{requested_reviewer}</code> review for pull request" \
+        message = "🙀 {name} requested <code>{requested_reviewer}</code>'s review for pull request" \
                   "«<a href=\"{request_url}\">{request_title}</a>» " \
                   "[<a href=\"{repository_url}\">{repository_name}</a>]".format(
                     name=self.sender.login,
