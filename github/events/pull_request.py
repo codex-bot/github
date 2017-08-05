@@ -152,14 +152,6 @@ class EventPullRequest(EventBase):
                     repository_name=self.repository.full_name
         )
 
-        # if len(self.pull_request.body):
-        #     message += html.escape(self.pull_request.body) + "\n\n"
-
-        # if len(self.pull_request.requested_reviewer):
-        #     message += '👉 ' + self.pull_request.requested_reviewer.login + '\n'
-
-        # message += '\n' + self.pull_request.html_url
-
         await self.sdk.send_text_to_chat(
             chat_id,
             message,
