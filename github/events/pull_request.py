@@ -139,10 +139,10 @@ class EventPullRequest(EventBase):
         :return:
         """
 
-        requested_reviewer = self.pull_request.requested_reviewer
+        requested_reviewer = User(payload['requested_reviewer'])
 
-        message = "🙀 {name} requested <code>{requested_reviewer}</code>'s review for pull request" \
-                  "«<a href=\"{request_url}\">{request_title}</a>» " \
+        message = "🙀 {name} requested <code>{requested_reviewer}</code>'s review " \
+                  "for pull request «<a href=\"{request_url}\">{request_title}</a>» " \
                   "[<a href=\"{repository_url}\">{repository_name}</a>]".format(
                     name=self.sender.login,
                     requested_reviewer=requested_reviewer.login,

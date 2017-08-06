@@ -34,7 +34,6 @@ class PullRequest:
         commits_url:    list of commits
         review_comments_url:    review discussion
         requested_reviewers:    list of users that has been marked as reviewers
-        requested_reviewer:     user that has been marked as reviewer
     """
 
     def __init__(self, data):
@@ -89,11 +88,8 @@ class PullRequest:
         self.closed_at = data.get('closed_at', '')
         self.updated_at = data.get('updated_at', '')
 
+        # Requested reviewers
         self.requested_reviewers = []
         if 'requested_reviewers' in data:
             for reviewer in data['requested_reviewers']:
                 self.requested_reviewers.append(User(reviewer))
-
-        self.requested_reviewer = None
-        if 'requested_reviewer' in data:
-            self.requested_reviewer = User(data['requested_reviewer'])
