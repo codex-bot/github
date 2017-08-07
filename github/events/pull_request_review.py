@@ -44,6 +44,7 @@ class EventPullRequestReview(EventBase):
             self.repository = Repository(payload['repository'])
             self.sender = User(payload['sender'])
             self.review = PullRequestReview(payload['review'])
+            self.action = payload['action']
 
         except Exception as e:
             self.sdk.log('Cannot process PullRequestReview payload because of {}'.format(e))
@@ -52,12 +53,16 @@ class EventPullRequestReview(EventBase):
 
         available_states = {
             'approved': self.approved,
-            # 'commented': self.commented,
+            'commented': self.commented,
             'changes_requested': self.changes_requested
         }
 
         if state not in available_states:
             self.sdk.log('Unsupported PullRequestReview state: {}'.format(state))
+            return
+
+        if self.action != "submitted":
+            self.sdk.log('PullRequestReview action is not equal "submitted": {}'.format(state))
             return
 
         # call action handler
@@ -96,6 +101,30 @@ class EventPullRequestReview(EventBase):
         """
 
         message = "❌ {name} requested changes in «<code>{pull_request}</code>».".format(
+                    name=self.sender.login,
+                    pull_request=self.pull_request.title
+        ) + "\n\n"
+
+        if len(self.review.body):
+            message += html.escape(self.review.body) + "\n\n"
+
+        message += self.pull_request.html_url
+
+        await self.sdk.send_text_to_chat(
+            chat_id,
+            message,
+            'HTML'
+        )
+
+    async def commented(self, chat_id, payload):
+        """
+        Pull Request Review commented state
+        :param chat_id: Current user chat token
+        :param payload: GitHub payload
+        :return:
+        """
+
+        message = "💬 {name} reviewed «<code>{pull_request}</code>».".format(
                     name=self.sender.login,
                     pull_request=self.pull_request.title
         ) + "\n\n"
