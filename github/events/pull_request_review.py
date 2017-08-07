@@ -44,6 +44,7 @@ class EventPullRequestReview(EventBase):
             self.repository = Repository(payload['repository'])
             self.sender = User(payload['sender'])
             self.review = PullRequestReview(payload['review'])
+            self.action = payload['action']
 
         except Exception as e:
             self.sdk.log('Cannot process PullRequestReview payload because of {}'.format(e))
@@ -58,6 +59,10 @@ class EventPullRequestReview(EventBase):
 
         if state not in available_states:
             self.sdk.log('Unsupported PullRequestReview state: {}'.format(state))
+            return
+
+        if self.action != "submitted":
+            self.sdk.log('PullRequestReview action is not equal "submitted": {}'.format(state))
             return
 
         # call action handler
