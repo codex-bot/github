@@ -52,7 +52,7 @@ class EventPullRequestReview(EventBase):
 
         available_states = {
             'approved': self.approved,
-            # 'commented': self.commented,
+            'commented': self.commented,
             'changes_requested': self.changes_requested
         }
 
@@ -96,6 +96,30 @@ class EventPullRequestReview(EventBase):
         """
 
         message = "❌ {name} requested changes in «<code>{pull_request}</code>».".format(
+                    name=self.sender.login,
+                    pull_request=self.pull_request.title
+        ) + "\n\n"
+
+        if len(self.review.body):
+            message += html.escape(self.review.body) + "\n\n"
+
+        message += self.pull_request.html_url
+
+        await self.sdk.send_text_to_chat(
+            chat_id,
+            message,
+            'HTML'
+        )
+
+    async def commented(self, chat_id, payload):
+        """
+        Pull Request Review commented state
+        :param chat_id: Current user chat token
+        :param payload: GitHub payload
+        :return:
+        """
+
+        message = "💬 {name} reviewed «<code>{pull_request}</code>».".format(
                     name=self.sender.login,
                     pull_request=self.pull_request.title
         ) + "\n\n"
