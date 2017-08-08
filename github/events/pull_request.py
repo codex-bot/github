@@ -3,6 +3,7 @@ import html
 from data_types.pull_request import PullRequest
 from data_types.repository import Repository
 from data_types.user import User
+from data_types.team import Team
 from .base import EventBase
 
 
@@ -139,13 +140,22 @@ class EventPullRequest(EventBase):
         :return:
         """
 
-        requested_reviewer = User(payload['requested_reviewer'])
+        # get user.login or team.name
+        requested_reviewer_name = ''
+
+        if payload.get('requested_reviewer'):
+            requested_reviewer = User(payload['requested_reviewer'])
+            requested_reviewer_name = requested_reviewer.login
+
+        if payload.get('requested_team'):
+            requested_reviewer = Team(payload['requested_team'])
+            requested_reviewer_name = requested_reviewer.name
 
         message = "🙀 {name} requested <code>{requested_reviewer}</code>'s review " \
                   "for pull request «<a href=\"{request_url}\">{request_title}</a>» " \
                   "[<a href=\"{repository_url}\">{repository_name}</a>]".format(
                     name=self.sender.login,
-                    requested_reviewer=requested_reviewer.login,
+                    requested_reviewer=requested_reviewer_name,
                     request_url=self.pull_request.html_url,
                     request_title=html.escape(self.pull_request.title),
                     repository_url=self.repository.html_url,
