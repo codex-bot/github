@@ -3,6 +3,7 @@ import html
 from data_types.pull_request import PullRequest
 from data_types.repository import Repository
 from data_types.user import User
+from data_types.team import Team
 from .base import EventBase
 
 
@@ -61,6 +62,7 @@ class EventPullRequest(EventBase):
 
         available_actions = {
             'opened': self.opened,
+            'reopened': self.reopened,
             'closed': self.closed,
             'review_requested': self.review_requested
         }
@@ -81,6 +83,36 @@ class EventPullRequest(EventBase):
         """
 
         message = "😼 {name} opened pull request «<code>{title}</code>» " \
+                  "from <b>{head}</b> to <b>{base}</b>" \
+                  "[<a href=\"{repository_url}\">{repository_name}</a>]".format(
+                    name=self.sender.login,
+                    title=html.escape(self.pull_request.title),
+                    head=self.pull_request.head.ref,
+                    base=self.pull_request.base.ref,
+                    repository_url=self.repository.html_url,
+                    repository_name=self.repository.full_name
+        ) + "\n\n"
+
+        if len(self.pull_request.body):
+            message += html.escape(self.pull_request.body) + "\n\n"
+
+        message += self.pull_request.html_url
+
+        await self.sdk.send_text_to_chat(
+            chat_id,
+            message,
+            'HTML'
+        )
+
+    async def reopened(self, chat_id, payload):
+        """
+        Pull Request opened action
+        :param chat_id: Current user chat token
+        :param payload: GitHub payload
+        :return:
+        """
+
+        message = "😼 {name} reopened pull request «<code>{title}</code>» " \
                   "from <b>{head}</b> to <b>{base}</b>" \
                   "[<a href=\"{repository_url}\">{repository_name}</a>]".format(
                     name=self.sender.login,
@@ -139,13 +171,22 @@ class EventPullRequest(EventBase):
         :return:
         """
 
-        requested_reviewer = User(payload['requested_reviewer'])
+        # get user.login or team.name
+        requested_reviewer_name = ''
+
+        if payload.get('requested_reviewer'):
+            requested_reviewer = User(payload['requested_reviewer'])
+            requested_reviewer_name = requested_reviewer.login
+
+        if payload.get('requested_team'):
+            requested_reviewer = Team(payload['requested_team'])
+            requested_reviewer_name = requested_reviewer.name
 
         message = "🙀 {name} requested <code>{requested_reviewer}</code>'s review " \
                   "for pull request «<a href=\"{request_url}\">{request_title}</a>» " \
                   "[<a href=\"{repository_url}\">{repository_name}</a>]".format(
                     name=self.sender.login,
-                    requested_reviewer=requested_reviewer.login,
+                    requested_reviewer=requested_reviewer_name,
                     request_url=self.pull_request.html_url,
                     request_title=html.escape(self.pull_request.title),
                     repository_url=self.repository.html_url,
