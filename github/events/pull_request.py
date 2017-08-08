@@ -62,6 +62,7 @@ class EventPullRequest(EventBase):
 
         available_actions = {
             'opened': self.opened,
+            'reopened': self.reopened,
             'closed': self.closed,
             'review_requested': self.review_requested
         }
@@ -82,6 +83,36 @@ class EventPullRequest(EventBase):
         """
 
         message = "😼 {name} opened pull request «<code>{title}</code>» " \
+                  "from <b>{head}</b> to <b>{base}</b>" \
+                  "[<a href=\"{repository_url}\">{repository_name}</a>]".format(
+                    name=self.sender.login,
+                    title=html.escape(self.pull_request.title),
+                    head=self.pull_request.head.ref,
+                    base=self.pull_request.base.ref,
+                    repository_url=self.repository.html_url,
+                    repository_name=self.repository.full_name
+        ) + "\n\n"
+
+        if len(self.pull_request.body):
+            message += html.escape(self.pull_request.body) + "\n\n"
+
+        message += self.pull_request.html_url
+
+        await self.sdk.send_text_to_chat(
+            chat_id,
+            message,
+            'HTML'
+        )
+
+    async def reopened(self, chat_id, payload):
+        """
+        Pull Request opened action
+        :param chat_id: Current user chat token
+        :param payload: GitHub payload
+        :return:
+        """
+
+        message = "😼 {name} reopened pull request «<code>{title}</code>» " \
                   "from <b>{head}</b> to <b>{base}</b>" \
                   "[<a href=\"{repository_url}\">{repository_name}</a>]".format(
                     name=self.sender.login,
