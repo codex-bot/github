@@ -11,21 +11,17 @@ Getting notifications about:
 
 ## Getting started
 
-Add @codex_bot in telegram. You can use link
-
-```
-https://t.me/codex_bot
-```
+Add [@codex_bot](https://t.me/codex_bot) to chat.
 
 Press button start
 
 Type /apps to see a list of available applications
 
-Choose /github command. This will help send you messages about your git repository activities
+Choose /github command. It will help you to organize notifications about your git repository activities
 
 ## Setting up a repository
 
-Type in command /github_start and follow instructions Bot sends you
+Type in command /github_start and and follow further instructions.
 
 1) Choose a repository you want to get notifications from. Open its settings
 
@@ -35,11 +31,11 @@ Type in command /github_start and follow instructions Bot sends you
 
 ![alt text](https://user-images.githubusercontent.com/15448200/29361295-a00fd890-828f-11e7-8d1b-19724334ac6f.jpg "Go to Webhooks section")
 
-3) Paste in the "Payload URL" field link bot gives you.
+3) Copy the link, which bot gives you, into the "Payload URL" field.
 
 You'll get something similar to this
 ```
-https://github.bot.ifmo.su/github/your_token_here
+https://github.bot.ifmo.su/github/ABCD1234
 
 ```
 4) For «Content type» choose «application/json».
