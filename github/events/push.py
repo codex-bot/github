@@ -65,7 +65,7 @@ class EventPush(EventBase):
 
         if bool(payload['created']):
             self.sdk.log('Branch %s has been created' % payload['ref'])
-            return
+            self.commits.append(Commit(payload['head_commit']))
 
 
         # Start building message
