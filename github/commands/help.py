@@ -6,17 +6,15 @@ class CommandHelp(CommandBase):
     async def __call__(self, payload):
         self.sdk.log("/help handler fired with payload {}".format(payload))
 
-        message = "Модуль для работы с сервисом GitHub.\n\n" \
-                  "- Оповещения о новых Push-событиях\n" \
-                  "- Оповещения о создании Pull-реквестов\n" \
-                  "- Оповещения о создании Issues\n\n" \
+        message = "This GitHub app allows you stay in touch with all updates for your repository.\n" \
+                  "You won't miss any issue, assignee, pull request or approve."
 
         # TODO get repos list
         repositories = list()
 
         if not repositories:
-            message += "В данный момент модуль не активирован.\n\n" \
-                       "Для настройки модуля, используйте команду /github_start"
+            message += "You have not connected any repository in this chat.\n\n" \
+                       "Set up the first right now by /github_start."
         # else:
         #     message += "Подключенные репозитории.\n\n"
         #     for repository in repositories:

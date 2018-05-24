@@ -8,9 +8,11 @@ from .base import EventBase
 
 class EventIssues(EventBase):
 
-    issue = None
-    repository = None
-    sender = None
+    def __init__(self, sdk):
+        self.issue = None
+        self.repository = None
+        self.sender = None
+        self.sdk = sdk
 
     """
     IssuesEvent
@@ -62,21 +64,22 @@ class EventIssues(EventBase):
         :return:
         """
 
-        message = "{} opened new issue «<code>{}</code>» [<a href=\"{}\">{}</a>]".format(
+        message = "✏️ {} opened new issue «<code>{}</code>» [<a href=\"{}\">{}</a>]".format(
                         self.sender.login,
-                        self.issue.title,
+                        html.escape(self.issue.title),
                         self.repository.html_url,
                         self.repository.name
                     ) + "\n\n"
 
-        if len(self.issue.body):
-            message += html.escape(self.issue.body) + "\n\n"
+        # if len(self.issue.body):
+        #     message += html.escape(self.issue.body) + "\n\n"
 
         message += self.issue.html_url
 
         await self.send(
             chat_id,
-            message
+            message,
+            'HTML'
         )
 
     async def closed(self, chat_id, payload):
@@ -86,15 +89,15 @@ class EventIssues(EventBase):
         :param payload: GitHub payload
         :return:
         """
-        message = "{} closes issue «<code>{}</code>» [<a href=\"{}\">{}</a>]".format(
+        message = "☑️ {} closed issue «<code>{}</code>» [<a href=\"{}\">{}</a>]".format(
             self.sender.login,
-            self.issue.title,
+            html.escape(self.issue.title),
             self.repository.html_url,
             self.repository.name
         ) + "\n\n"
 
-        if len(self.issue.body):
-            message += html.escape(self.issue.body) + "\n\n"
+        # if len(self.issue.body):
+        #     message += html.escape(self.issue.body) + "\n\n"
 
         message += self.issue.html_url
 
@@ -114,11 +117,11 @@ class EventIssues(EventBase):
 
         assignee = User(payload['assignee'])
 
-        message = "{assignee} has been assigned to the issue «<code>{issue_title}</code>» " \
+        message = "📌 {assignee} has been assigned to the issue «<code>{issue_title}</code>» " \
                   "by {author} [{repository_name}]".format(
                     assignee=assignee.login,
                     author=self.sender.login,
-                    issue_title=self.issue.title,
+                    issue_title=html.escape(self.issue.title),
                     repository_name=self.repository.name
         ) + "\n\n"
 

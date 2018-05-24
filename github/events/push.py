@@ -1,3 +1,5 @@
+import html
+
 from data_types.commit import Commit
 from data_types.repository import Repository
 from data_types.user import User
@@ -6,9 +8,11 @@ from .base import EventBase
 
 class EventPush(EventBase):
 
-    repository = None
-    sender = None
-    commits = []
+    def __init__(self, sdk):
+        self.repository = None
+        self.sender = None
+        self.commits = []
+        self.sdk = sdk
 
     """
     PushEvent
@@ -55,9 +59,18 @@ class EventPush(EventBase):
         except Exception as e:
             self.sdk.log('Cannot process PingEvent payload because of {}'.format(e))
 
+        if bool(payload['deleted']):
+            self.sdk.log('Branch %s has been deleted' % payload['ref'])
+            return
+
+        if bool(payload['created']):
+            self.sdk.log('Branch %s has been created' % payload['ref'])
+            return
+
+
         # Start building message
 
-        message = '{} pushed {} {} to {} \n\n'.format(
+        message = '👊 {} pushed {} {} to {} \n\n'.format(
             self.sender.login,
             len(self.commits),
             "commits" if len(self.commits) > 1 else "commit",
@@ -73,33 +86,40 @@ class EventPush(EventBase):
         for commit in self.commits:
 
             # Append commits messages
-            message += '* {}\n'.format(commit.message)
+            message += html.escape('* {}\n'.format(commit.message))
 
             if len(commit.added):
-                added.extend(commit.added)
+                for added_file in commit.added:
+                    if added_file not in added:
+                        added.append(added_file)
             if len(commit.removed):
-                removed.extend(commit.removed)
+                for removed_file in commit.removed:
+                    if removed_file not in removed:
+                        removed.append(removed_file)
             if len(commit.modified):
-                modified.extend(commit.modified)
+                for modified_file in commit.modified:
+                    if modified_file not in modified:
+                        modified.append(modified_file)
 
         if len(added):
             message += '\nNew files: \n'
             for file_name in added:
-                message += file_name + '\n'
+                message += html.escape(file_name) + '\n'
 
         if len(removed):
             message += '\nRemoved files: \n'
             for file_name in removed:
-                message += file_name + '\n'
+                message += html.escape(file_name) + '\n'
 
         if len(modified):
             message += '\nModified files: \n'
             for file_name in modified:
-                message += file_name + '\n'
+                message += html.escape(file_name) + '\n'
 
         message += '\n ' + payload['compare']
 
-        await self.send(
+        self.sdk.send_text_to_chat(
             chat_id,
-            message
+            message,
+            'HTML'
         )

@@ -88,10 +88,8 @@ class PullRequest:
         self.closed_at = data.get('closed_at', '')
         self.updated_at = data.get('updated_at', '')
 
+        # Requested reviewers
         self.requested_reviewers = []
         if 'requested_reviewers' in data:
             for reviewer in data['requested_reviewers']:
                 self.requested_reviewers.append(User(reviewer))
-
-
-

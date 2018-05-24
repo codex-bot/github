@@ -33,35 +33,31 @@ class CommandStart(CommandBase):
 
         await self.send(
             payload["chat"],
-            "Чтобы подключить репозиторий, выполните следующие шаги."
+            "To connect repository notifications follow next steps:"
         )
 
         await self.sdk.send_image_to_chat(
             payload['chat'],
             photo='{}/img/step_1.jpg'.format(URL),
-            caption="1) Откройте настройки вашего репозитория."
+            caption="1) Open repository settings."
         )
 
         await self.sdk.send_image_to_chat(
             payload['chat'],
             photo='{}/img/step_2.jpg'.format(URL),
-            caption="2) Зайдите в раздел Webhooks & services и нажмите кнопку Add Webhook."
+            caption="2) Go to \"Webhooks\" and press button \"Add webhook\"."
         )
 
-        message = "3) Вставьте в поле Payload URL следующую ссылку.\n{}\n" \
+        message = "3) Paste in the \"Payload URL\" field this link.\n{}\n" \
                   "\n" \
-                  "4) В поле «Which events would you like to trigger this webhook?» выберите " \
-                  "«Let me select individual events» и отметьте следующие флажки: \n" \
-                  "- Issues \n" \
-                  "- Pull request \n" \
-                  "- Push \n" \
+                  "4) For «Content type» choose «application/json».\n" \
                   "\n" \
-                  "5) В поле «Content type» выберите тип «application/json».\n" \
+                  "5) For «Which events would you like to trigger this webhook?» choose \n" \
+                  "«Send me everything.»\n" \
                   "\n" \
-                  "6) Нажмите на кнопку «Add Webhook».".format(link)
+                  "6) Press button «Add webhook».".format(link)
 
         await self.send(
             payload["chat"],
             message
         )
-
