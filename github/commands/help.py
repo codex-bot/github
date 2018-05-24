@@ -25,7 +25,7 @@ class CommandHelp(CommandBase):
         #            "Подключить еще один репозиторий можно с помощью команды /github_start\n\n" \
         #            "Меню модуля: /github_help"
 
-        await self.sdk.send_text_to_chat(
+        await self.send(
             payload["chat"],
             message
         )
