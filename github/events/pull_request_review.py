@@ -10,10 +10,10 @@ from .base import EventBase
 class EventPullRequestReview(EventBase):
 
     def __init__(self, sdk):
+        super(EventPullRequestReview, self).__init__(sdk)
         self.pull_request = None
         self.repository = None
         self.sender = None
-        self.sdk = sdk
 
     """
     PullRequestReviewEvent
