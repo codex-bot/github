@@ -7,10 +7,10 @@ from .base import EventBase
 class EventPing(EventBase):
 
     def __init__(self, sdk):
+        super(EventPing, self).__init__(sdk)
         self.hook = None
         self.repository = None
         self.sender = None
-        self.sdk = sdk
 
     """
     PingEvent
