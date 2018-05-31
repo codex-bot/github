@@ -39,6 +39,8 @@ class EventPullRequestReview(EventBase):
 
         self.sdk.log("PullRequestReview event payload taken {}".format(payload))
 
+        self.set_bot(payload)
+
         try:
             self.pull_request = PullRequest(payload['pull_request'])
             self.repository = Repository(payload['repository'])
@@ -86,7 +88,7 @@ class EventPullRequestReview(EventBase):
 
         message += self.pull_request.html_url
 
-        await self.sdk.send_text_to_chat(
+        await self.send(
             chat_id,
             message,
             'HTML'
@@ -110,7 +112,7 @@ class EventPullRequestReview(EventBase):
 
         message += self.pull_request.html_url
 
-        await self.sdk.send_text_to_chat(
+        await self.send(
             chat_id,
             message,
             'HTML'
@@ -134,7 +136,7 @@ class EventPullRequestReview(EventBase):
 
         message += self.pull_request.html_url
 
-        await self.sdk.send_text_to_chat(
+        await self.send(
             chat_id,
             message,
             'HTML'
