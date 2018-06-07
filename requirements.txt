@@ -1,5 +1,7 @@
 aioamqp==0.10.0
 requests
+pymongo
+apscheduler
 aiohttp==2.0.7
   - async-timeout [required: >=1.2.0, installed: 1.2.1]
   - chardet [required: Any, installed: 3.0.2]
