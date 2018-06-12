@@ -9,6 +9,7 @@ from .base import EventBase
 class EventPush(EventBase):
 
     def __init__(self, sdk):
+        super(EventPush, self).__init__(sdk)
         self.repository = None
         self.sender = None
         self.commits = []

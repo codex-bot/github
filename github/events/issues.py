@@ -9,6 +9,7 @@ from .base import EventBase
 class EventIssues(EventBase):
 
     def __init__(self, sdk):
+        super(EventIssues, self).__init__(sdk)
         self.issue = None
         self.repository = None
         self.sender = None
