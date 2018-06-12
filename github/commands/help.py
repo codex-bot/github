@@ -6,6 +6,8 @@ class CommandHelp(CommandBase):
     async def __call__(self, payload):
         self.sdk.log("/help handler fired with payload {}".format(payload))
 
+        self.set_bot(payload)
+
         message = "This GitHub app allows you stay in touch with all updates for your repository.\n" \
                   "You won't miss any issue, assignee, pull request or approve."
 

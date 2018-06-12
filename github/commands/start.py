@@ -11,9 +11,10 @@ class CommandStart(CommandBase):
     def generate_user_token():
         return ''.join(random.SystemRandom().choice(string.ascii_uppercase + string.digits) for _ in range(8))
 
-
     async def __call__(self, payload):
         self.sdk.log("/start handler fired with payload {}".format(payload))
+
+        self.set_bot(payload)
 
         registered_chat = self.sdk.db.find_one(USERS_COLLECTION_NAME, {'chat': payload['chat']})
 
@@ -39,13 +40,15 @@ class CommandStart(CommandBase):
         await self.sdk.send_image_to_chat(
             payload['chat'],
             photo='{}/img/step_1.jpg'.format(URL),
-            caption="1) Open repository settings."
+            caption="1) Open repository settings.",
+            bot=self.bot
         )
 
         await self.sdk.send_image_to_chat(
             payload['chat'],
             photo='{}/img/step_2.jpg'.format(URL),
-            caption="2) Go to \"Webhooks\" and press button \"Add webhook\"."
+            caption="2) Go to \"Webhooks\" and press button \"Add webhook\".",
+            bot=self.bot
         )
 
         message = "3) Paste in the \"Payload URL\" field this link.\n{}\n" \

@@ -50,6 +50,8 @@ class EventPullRequest(EventBase):
 
         self.sdk.log("PullRequest event payload taken {}".format(payload))
 
+        self.set_bot(payload)
+
         try:
             self.pull_request = PullRequest(payload['pull_request'])
             self.repository = Repository(payload['repository'])
@@ -98,7 +100,7 @@ class EventPullRequest(EventBase):
 
         message += self.pull_request.html_url
 
-        await self.sdk.send_text_to_chat(
+        await self.send(
             chat_id,
             message,
             'HTML'
@@ -157,7 +159,7 @@ class EventPullRequest(EventBase):
 
         message += self.pull_request.html_url
 
-        await self.sdk.send_text_to_chat(
+        await self.send(
             chat_id,
             message,
             'HTML'

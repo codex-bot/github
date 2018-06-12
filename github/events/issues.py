@@ -33,6 +33,8 @@ class EventIssues(EventBase):
 
         self.sdk.log("Issues event payload taken")
 
+        self.set_bot(payload)
+
         try:
             self.issue = Issue(payload['issue'])
             self.repository = Repository(payload['repository'])
