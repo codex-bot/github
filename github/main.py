@@ -1,5 +1,7 @@
 import json
 import logging
+
+from applications.github.github.commands.link import CommandLink
 from sdk.codexbot_sdk import CodexBot
 from config import APPLICATION_TOKEN, APPLICATION_NAME, DB, URL, SERVER
 from config import USERS_COLLECTION_NAME
@@ -25,7 +27,8 @@ class Github:
              'GitHub app. Allows you receive notices about new issues, commits and pull-requests.',
              CommandHelp(self.sdk)),
             ('github_help', 'help', CommandHelp(self.sdk)),
-            ('github_start', 'start', CommandStart(self.sdk))
+            ('github_start', 'start', CommandStart(self.sdk)),
+            ('github_link', 'link', CommandLink(self.sdk))
         ])
 
         self.sdk.set_routes([
@@ -90,7 +93,6 @@ class Github:
             return {
                 'status': 404
             }
-
 
 
 if __name__ == "__main__":
