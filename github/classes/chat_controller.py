@@ -2,7 +2,7 @@ import random
 import string
 from time import time
 
-from applications.metrika.metrika.config import USERS_COLLECTION_NAME
+from config import USERS_COLLECTION_NAME
 
 
 class ChatController:
