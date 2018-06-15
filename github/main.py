@@ -1,17 +1,18 @@
 import json
 import logging
 
-from events.watch import EventWatch
 from sdk.codexbot_sdk import CodexBot
 from config import APPLICATION_TOKEN, APPLICATION_NAME, DB, URL, SERVER
 from config import USERS_COLLECTION_NAME
 from commands.help import CommandHelp
 from commands.start import CommandStart
+from commands.link import CommandLink
 from events.ping import EventPing
 from events.push import EventPush
 from events.issues import EventIssues
 from events.pull_request import EventPullRequest
 from events.pull_request_review import EventPullRequestReview
+from events.watch import EventWatch
 
 
 class Github:
@@ -27,7 +28,8 @@ class Github:
              'GitHub app. Allows you receive notices about new issues, commits and pull-requests.',
              CommandHelp(self.sdk)),
             ('github_help', 'help', CommandHelp(self.sdk)),
-            ('github_start', 'start', CommandStart(self.sdk))
+            ('github_start', 'start', CommandStart(self.sdk)),
+            ('github_link', 'link', CommandLink(self.sdk))
         ])
 
         self.sdk.set_routes([
@@ -93,7 +95,6 @@ class Github:
             return {
                 'status': 404
             }
-
 
 
 if __name__ == "__main__":

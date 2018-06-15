@@ -1,34 +1,16 @@
-import random
-import string
-from time import time
-
-from config import URL, USERS_COLLECTION_NAME
+from config import URL
 from .base import CommandBase
+from classes.chat_controller import ChatController
+
 
 class CommandStart(CommandBase):
-
-    @staticmethod
-    def generate_user_token():
-        return ''.join(random.SystemRandom().choice(string.ascii_uppercase + string.digits) for _ in range(8))
 
     async def __call__(self, payload):
         self.sdk.log("/start handler fired with payload {}".format(payload))
 
         self.set_bot(payload)
 
-        registered_chat = self.sdk.db.find_one(USERS_COLLECTION_NAME, {'chat': payload['chat']})
-
-        if registered_chat:
-            user_token = registered_chat['user']
-        else:
-            user_token = self.generate_user_token()
-            new_chat = {
-                'chat': payload['chat'],
-                'user': user_token,
-                'dt_register': time()
-            }
-            self.sdk.db.insert(USERS_COLLECTION_NAME, new_chat)
-            self.sdk.log("New user registered with token {}".format(user_token))
+        user_token = ChatController(self.sdk).register_chat(payload['chat'])
 
         link = "{}/github/{}".format(URL, user_token)
 
