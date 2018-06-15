@@ -1,17 +1,18 @@
 import json
 import logging
 
-from applications.github.github.commands.link import CommandLink
 from sdk.codexbot_sdk import CodexBot
 from config import APPLICATION_TOKEN, APPLICATION_NAME, DB, URL, SERVER
 from config import USERS_COLLECTION_NAME
 from commands.help import CommandHelp
 from commands.start import CommandStart
+from commands.link import CommandLink
 from events.ping import EventPing
 from events.push import EventPush
 from events.issues import EventIssues
 from events.pull_request import EventPullRequest
 from events.pull_request_review import EventPullRequestReview
+from events.watch import EventWatch
 
 
 class Github:
@@ -63,6 +64,7 @@ class Github:
         event_name = request['headers']['X-Github-Event']
 
         events = {
+            'watch': EventWatch(self.sdk),
             'ping': EventPing(self.sdk),
             'push': EventPush(self.sdk),
             'issues': EventIssues(self.sdk),
