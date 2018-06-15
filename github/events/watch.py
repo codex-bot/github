@@ -42,6 +42,10 @@ class EventWatch(EventBase):
 
         await self.send(
             chat_id,
-            '{} added new star ⭐️ to <a href=\"{}\">{}</a>.'.format(self.sender.login, self.repository.html_url, self.repository.full_name),
+            '<a href=\"{}\">{}</a> added new star ⭐️ to <a href=\"{}\">{}</a>.'.format(
+                self.sender.html_url,
+                self.sender.login,
+                self.repository.html_url,
+                self.repository.full_name),
             'HTML'
         )
