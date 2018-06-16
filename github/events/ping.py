@@ -33,8 +33,6 @@ class EventPing(EventBase):
 
         self.sdk.log("Ping event payload taken {}".format(payload))
 
-        self.set_bot(payload)
-
         try:
 
             self.repository = Repository(payload['repository'])

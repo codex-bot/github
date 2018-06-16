@@ -12,11 +12,11 @@ class CommandHelp(CommandBase):
                   "You won't miss any issue, assignee, pull request or approve."
 
         # TODO get repos list
-        repositories = list()
-
-        if not repositories:
-            message += "You have not connected any repository in this chat.\n\n" \
-                       "Set up the first right now by /github_start."
+        # repositories = list()
+        #
+        # if not repositories:
+        #     message += "You have not connected any repository in this chat.\n\n" \
+        #                "Set up the first right now by /github_start."
         # else:
         #     message += "Подключенные репозитории.\n\n"
         #     for repository in repositories:
