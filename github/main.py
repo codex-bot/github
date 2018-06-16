@@ -1,6 +1,7 @@
 import json
 import logging
 
+from events.fork import EventFork
 from sdk.codexbot_sdk import CodexBot
 from config import APPLICATION_TOKEN, APPLICATION_NAME, DB, URL, SERVER
 from config import USERS_COLLECTION_NAME
@@ -65,6 +66,7 @@ class Github:
 
         events = {
             'watch': EventWatch(self.sdk),
+            'fork': EventFork(self.sdk),
             'ping': EventPing(self.sdk),
             'push': EventPush(self.sdk),
             'issues': EventIssues(self.sdk),
