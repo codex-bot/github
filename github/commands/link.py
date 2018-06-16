@@ -10,7 +10,7 @@ class CommandLink(CommandBase):
 
         self.set_bot(payload)
 
-        user_token = ChatController(self.sdk).register_chat(payload['chat'])
+        user_token = ChatController(self.sdk).register_chat(payload['chat'], self.bot)
 
         link = "{}/github/{}".format(URL, user_token)
 

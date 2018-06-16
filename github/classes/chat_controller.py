@@ -10,8 +10,8 @@ class ChatController:
     def __init__(self, sdk):
         self.sdk = sdk
 
-    def register_chat(self, chat_id):
-        registered_chat = self.sdk.db.find_one(USERS_COLLECTION_NAME, {'chat': chat_id})
+    def register_chat(self, chat_id, bot_id):
+        registered_chat = self.sdk.db.find_one(USERS_COLLECTION_NAME, {'chat': chat_id, 'bot': bot_id})
 
         if registered_chat:
             user_token = registered_chat['user']
@@ -20,6 +20,7 @@ class ChatController:
             new_chat = {
                 'chat': chat_id,
                 'user': user_token,
+                'bot': bot_id,
                 'dt_register': time()
             }
             self.sdk.db.insert(USERS_COLLECTION_NAME, new_chat)

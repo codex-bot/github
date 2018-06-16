@@ -51,8 +51,6 @@ class EventPullRequest(EventBase):
 
         self.sdk.log("PullRequest event payload taken {}".format(payload))
 
-        self.set_bot(payload)
-
         try:
             self.pull_request = PullRequest(payload['pull_request'])
             self.repository = Repository(payload['repository'])

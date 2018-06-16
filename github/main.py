@@ -85,6 +85,7 @@ class Github:
             payload = json.loads(request['text'])
 
             # Call event handler
+            events[event_name].set_bot(registered_chat)
             await events[event_name].process(payload, registered_chat['chat'])
 
             return {
