@@ -10,23 +10,23 @@ class ChatController:
     def __init__(self, sdk):
         self.sdk = sdk
 
-    def register_chat(self, chat_id, bot_id):
+    def get_chat(self, chat_id, bot_id):
         registered_chat = self.sdk.db.find_one(USERS_COLLECTION_NAME, {'chat': chat_id, 'bot': bot_id})
 
         if registered_chat:
-            user_token = registered_chat['user']
+            return registered_chat
         else:
             user_token = self.generate_user_token()
             new_chat = {
                 'chat': chat_id,
                 'user': user_token,
                 'bot': bot_id,
-                'dt_register': time()
+                'dt_register': time(),
+                'branch': "*"
             }
-            self.sdk.db.insert(USERS_COLLECTION_NAME, new_chat)
             self.sdk.log("New user registered with token {}".format(user_token))
-
-        return user_token
+            self.sdk.db.insert(USERS_COLLECTION_NAME, new_chat)
+            return new_chat
 
     @staticmethod
     def generate_user_token():

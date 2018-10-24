@@ -20,11 +20,11 @@ class EventFork(EventBase):
     https://developer.github.com/v3/activity/events/types/#forkevent
     """
 
-    async def process(self, payload, chat_id):
+    async def process(self, payload, chat):
         """
         Processes Fork event
         :param payload: JSON object with payload
-        :param chat_id: current user chat token
+        :param chat: current chat object
         :return:
         """
 
@@ -39,7 +39,7 @@ class EventFork(EventBase):
             self.sdk.log('Cannot process ForkEvent payload because of {}'.format(e))
 
         await self.send(
-            chat_id,
+            chat['chat'],
             '<a href=\"{}\">{}</a> forked 🦍 <a href=\"{}\">{}</a>.'.format(
                 self.sender.html_url,
                 self.sender.login,

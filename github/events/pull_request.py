@@ -26,7 +26,7 @@ class EventPullRequest(EventBase):
     https://developer.github.com/v3/activity/events/types/#pullrequestevent
     """
 
-    async def process(self, payload, chat_id):
+    async def process(self, payload, chat):
         """
         Processes Pull Request event
         :param payload: JSON object with payload
@@ -45,7 +45,7 @@ class EventPullRequest(EventBase):
 
             pull_request        - Pull request object
 
-        :param chat_id: current user chat token
+        :param chat: current chat object
         :return:
         """
 
@@ -73,7 +73,7 @@ class EventPullRequest(EventBase):
             return
 
         # call action handler
-        await available_actions[action](chat_id, payload)
+        await available_actions[action](chat['chat'], payload)
 
     async def opened(self, chat_id, payload):
         """
