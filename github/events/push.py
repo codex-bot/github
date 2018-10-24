@@ -69,9 +69,12 @@ class EventPush(EventBase):
             message = "Branch {} has been created".format(payload['ref'])
             self.sdk.log(message)
 
-        branch_name = payload['ref'].split('/')[-1]
-        if chat['branch'] != '*' and chat['branch'] != branch_name:
-            return
+        try:
+            branch_name = payload['ref'].split('/')[-1]
+            if 'branch' in chat and chat['branch'] != '*' and chat['branch'] != branch_name:
+                return
+        except Exception as e:
+            self.sdk.log("Exception: {}".format(e))
 
         # Start building message
 
