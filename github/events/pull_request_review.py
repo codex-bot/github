@@ -25,7 +25,7 @@ class EventPullRequestReview(EventBase):
     https://developer.github.com/v3/activity/events/types/#pullrequestevent
     """
 
-    async def process(self, payload, chat_id):
+    async def process(self, payload, chat):
         """
         Processes Pull Request Review event
         :param payload: JSON object with payload
@@ -34,7 +34,7 @@ class EventPullRequestReview(EventBase):
             review          object  - The review that was affected.
             changes[body][from]     - The previous version of the body if the action was "edited".
 
-        :param chat_id: current user chat token
+        :param chat: current chat object
         :return:
         """
 
@@ -67,7 +67,7 @@ class EventPullRequestReview(EventBase):
             return
 
         # call action handler
-        await available_states[state](chat_id, payload)
+        await available_states[state](chat['chat'], payload)
 
     async def approved(self, chat_id, payload):
         """

@@ -20,14 +20,14 @@ class EventPing(EventBase):
     https://developer.github.com/webhooks/#ping-event
     """
 
-    async def process(self, payload, chat_id):
+    async def process(self, payload, chat):
         """
         Processes Ping event
         :param payload: JSON object with payload
             zen - Random string of GitHub zen
             hook_id - The ID of the webhook that triggered the ping
             hook - The webhook configuration
-        :param chat_id: current user chat token
+        :param chat: current chat object
         :return:
         """
 
@@ -43,7 +43,7 @@ class EventPing(EventBase):
             self.sdk.log('Cannot process PingEvent payload because of {}'.format(e))
 
         await self.send(
-            chat_id,
+            chat['chat'],
             '👏 Repository {} successfully linked. Boom.'.format(self.repository.full_name),
             'HTML'
         )

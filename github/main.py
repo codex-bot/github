@@ -1,6 +1,7 @@
 import json
 import logging
 
+from commands.branch import CommandBranch
 from events.fork import EventFork
 from sdk.codexbot_sdk import CodexBot
 from config import APPLICATION_TOKEN, APPLICATION_NAME, DB, URL, SERVER
@@ -30,7 +31,8 @@ class Github:
              CommandHelp(self.sdk)),
             ('github_help', 'help', CommandHelp(self.sdk)),
             ('github_start', 'start', CommandStart(self.sdk)),
-            ('github_link', 'link', CommandLink(self.sdk))
+            ('github_link', 'link', CommandLink(self.sdk)),
+            ('github_branch', 'branch', CommandBranch(self.sdk))
         ])
 
         self.sdk.set_routes([
@@ -86,7 +88,7 @@ class Github:
 
             # Call event handler
             events[event_name].set_bot(registered_chat)
-            await events[event_name].process(payload, registered_chat['chat'])
+            await events[event_name].process(payload, registered_chat)
 
             return {
                 'text': 'OK',

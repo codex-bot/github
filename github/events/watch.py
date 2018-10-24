@@ -20,11 +20,11 @@ class EventWatch(EventBase):
     https://developer.github.com/v3/activity/events/types/#watchevent
     """
 
-    async def process(self, payload, chat_id):
+    async def process(self, payload, chat):
         """
         Processes Watch event
         :param payload: JSON object with payload
-        :param chat_id: current user chat token
+        :param chat: current chat object
         :return:
         """
 
@@ -39,7 +39,7 @@ class EventWatch(EventBase):
             self.sdk.log('Cannot process WatchEvent payload because of {}'.format(e))
 
         await self.send(
-            chat_id,
+            chat['chat'],
             '<a href=\"{}\">{}</a> added new star ⭐️ to <a href=\"{}\">{}</a>.'.format(
                 self.sender.html_url,
                 self.sender.login,

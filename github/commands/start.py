@@ -10,9 +10,9 @@ class CommandStart(CommandBase):
 
         self.set_bot(payload)
 
-        user_token = ChatController(self.sdk).register_chat(payload['chat'], self.bot)
+        chat = ChatController(self.sdk).get_chat(payload['chat'], self.bot)
 
-        link = "{}/github/{}".format(URL, user_token)
+        link = "{}/github/{}".format(URL, chat["user"])
 
         await self.send(
             payload["chat"],

@@ -24,7 +24,7 @@ class EventPush(EventBase):
     https://developer.github.com/v3/activity/events/types/#pushevent
     """
 
-    async def process(self, payload, chat_id):
+    async def process(self, payload, chat):
         """
         Processes Push event
         :param payload: JSON object with payload
@@ -43,11 +43,11 @@ class EventPush(EventBase):
 
             pusher  Data of pusher user. Contains 'name' and 'email' fields
             sender  Who sends event
-        :param chat_id: current user chat token
+        :param chat: current chat object
         :return:
         """
 
-        self.sdk.log("Ping event payload taken {}".format(payload))
+        self.sdk.log("Push event payload taken {}".format(payload))
 
         try:
 
@@ -61,13 +61,17 @@ class EventPush(EventBase):
             self.sdk.log('Cannot process PingEvent payload because of {}'.format(e))
 
         if bool(payload['deleted']):
-            self.sdk.log('Branch %s has been deleted' % payload['ref'])
+            message = "Branch {} has been deleted".format(payload['ref'])
+            self.sdk.log(message)
             return
 
         if bool(payload['created']):
-            self.sdk.log('Branch %s has been created' % payload['ref'])
-            return
+            message = "Branch {} has been created".format(payload['ref'])
+            self.sdk.log(message)
 
+        branch_name = payload['ref'].split('/')[-1]
+        if chat['branch'] != '*' and chat['branch'] != branch_name:
+            return
 
         # Start building message
 
@@ -120,7 +124,7 @@ class EventPush(EventBase):
         message += '\n ' + payload['compare']
 
         await self.send(
-            chat_id,
+            chat['chat'],
             message,
             'HTML'
         )
