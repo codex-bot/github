@@ -19,7 +19,7 @@ class CommandBranch(CommandBase):
 
         chat = ChatController(self.sdk).get_chat(payload['chat'], self.bot)
         chat["branch"] = branch
-        self.sdk.db.update(USERS_COLLECTION_NAME, {'chat': chat['chat'], 'bot': chat['bot']}, chat)
+        self.sdk.db.update(USERS_COLLECTION_NAME, {'chat': chat['chat'], 'bot': self.bot}, chat)
 
         await self.send(
             payload["chat"],
