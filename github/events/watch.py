@@ -3,6 +3,8 @@ from data_types.repository import Repository
 from data_types.user import User
 from .base import EventBase
 
+import math
+ordinal = lambda n: "%d%s" % (n,"tsnrhtdd"[(math.floor(n/10)%10!=1)*(n%10<4)*n%10::4])
 
 class EventWatch(EventBase):
 
@@ -40,9 +42,10 @@ class EventWatch(EventBase):
 
         await self.send(
             chat['chat'],
-            '<a href=\"{}\">{}</a> added new star ⭐️ to <a href=\"{}\">{}</a>.'.format(
+            '<a href=\"{}\">{}</a> added a {} ⭐️ to <a href=\"{}\">{}</a>'.format(
                 self.sender.html_url,
                 self.sender.login,
+                ordinal(self.sender.repository.stargazers_count),
                 self.repository.html_url,
                 self.repository.full_name),
             'HTML'
