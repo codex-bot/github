@@ -40,7 +40,7 @@ class EventWatch(EventBase):
 
         await self.send(
             chat['chat'],
-            '<a href=\"{}\">{}</a> starred <a href=\"{}\">{}</a> ★ {}'.format(
+            '⭐️ <a href=\"{}\">{}</a> starred <a href=\"{}\">{}</a> ★ {}'.format(
                 self.sender.html_url,
                 self.sender.login,
                 self.repository.html_url,
