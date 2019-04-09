@@ -43,7 +43,7 @@ class EventWatch(EventBase):
             '<a href=\"{}\">{}</a> ⭐️ {} <a href=\"{}\">{}</a>'.format(
                 self.sender.html_url,
                 self.sender.login,
-                ordinal(self.sender.repository.stargazers_count),
+                self.sender.repository.stargazers_count,
                 self.repository.html_url,
                 self.repository.full_name),
             'HTML'
