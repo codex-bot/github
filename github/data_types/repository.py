@@ -17,6 +17,7 @@ class Repository:
         html_url: Public URL on github.com
         git_url: "git://github.com/baxterthehacker/public-repo.git"
         clone_url: "https://github.com/baxterthehacker/public-repo.git"
+        stargazers_count: 4756 — number of stars 
     """
 
     def __init__(self, data):
