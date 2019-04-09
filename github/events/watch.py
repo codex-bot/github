@@ -3,6 +3,7 @@ from data_types.repository import Repository
 from data_types.user import User
 from .base import EventBase
 
+
 class EventWatch(EventBase):
 
     def __init__(self, sdk):
