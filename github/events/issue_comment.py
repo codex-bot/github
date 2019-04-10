@@ -1,4 +1,5 @@
 import html
+import re
 
 from data_types.issue import Issue
 from data_types.issue_comment import IssueComment
@@ -76,7 +77,12 @@ class EventIssueComment(EventBase):
                     ) + "\n\n"
 
         if len(self.comment.body):
-            message += html.escape(self.comment.body) + "\n\n"
+            # Remove blank and citation lines (starting with "> ")
+            # Truncate text to maximum 10 lines and 250 symbols
+            full_body = html.escape(self.comment.body)
+            author_body = "\n".join(list(filter(lambda x: x != "\r" and len(x) and not re.match(r"^&gt; .*$", x), full_body.split("\n")))[:10])
+            truncated_body = author_body[:250] + ("", "...")[len(author_body) > 250]
+            message += truncated_body + "\n\n"
 
         message += "— {} | <a href=\"{}\">Open message</a>".format(self.sender.login, self.comment.html_url)
 
