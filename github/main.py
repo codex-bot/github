@@ -12,6 +12,7 @@ from commands.link import CommandLink
 from events.ping import EventPing
 from events.push import EventPush
 from events.issues import EventIssues
+from events.issue_comment import EventIssueComment
 from events.pull_request import EventPullRequest
 from events.pull_request_review import EventPullRequestReview
 from events.watch import EventWatch
@@ -72,6 +73,7 @@ class Github:
             'ping': EventPing(self.sdk),
             'push': EventPush(self.sdk),
             'issues': EventIssues(self.sdk),
+            'issue_comment': EventIssueComment(self.sdk),
             'pull_request': EventPullRequest(self.sdk),
             'pull_request_review': EventPullRequestReview(self.sdk)
         }
