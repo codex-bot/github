@@ -68,10 +68,9 @@ class EventIssueComment(EventBase):
         if self.issue.pull_request_url:
             issue_type = 'pull request'
 
-        message = "📝 {} created a new comment to the {} «<a href=\"{}\">{}</a>» [<a href=\"{}\">{}</a>]".format(
+        message = "📝 {} created a new comment to the {} <code>«{}»</code> [<a href=\"{}\">{}</a>]".format(
                         self.sender.login,
                         issue_type,
-                        self.issue.html_url,
                         html.escape(self.issue.title),
                         self.repository.html_url,
                         self.repository.name
