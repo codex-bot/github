@@ -64,12 +64,11 @@ class EventIssueComment(EventBase):
         :return:
         """
 
-        issue_type = 'issue'
+        issue_type = 'Issue'
         if self.issue.pull_request_url:
-            issue_type = 'pull request'
+            issue_type = 'Pull request'
 
-        message = "💬 {} commented {} <code>«{}»</code> [<a href=\"{}\">{}</a>]".format(
-                        self.sender.login,
+        message = "💬 <code>{} «{}»</code> [<a href=\"{}\">{}</a>]".format(
                         issue_type,
                         html.escape(self.issue.title),
                         self.repository.html_url,
@@ -79,7 +78,7 @@ class EventIssueComment(EventBase):
         if len(self.comment.body):
             message += html.escape(self.comment.body) + "\n\n"
 
-        message += "<a href=\"{}\">link</a>".format(self.comment.html_url)
+        message += "— {} | <a href=\"{}\">Open message</a>".format(self.sender.login, self.comment.html_url)
 
         await self.send(
             chat_id,
