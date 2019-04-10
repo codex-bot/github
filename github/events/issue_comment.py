@@ -76,7 +76,10 @@ class EventIssueComment(EventBase):
                         self.repository.name
                     ) + "\n\n"
 
-        message += self.comment.html_url
+        if len(self.comment.body):
+            message += html.escape(self.comment.body) + "\n\n"
+
+        message += "<a href=\"{}\">link</a>".format(self.comment.html_url)
 
         await self.send(
             chat_id,
