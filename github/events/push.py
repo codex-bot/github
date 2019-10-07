@@ -78,11 +78,12 @@ class EventPush(EventBase):
 
         # Start building message
 
-        message = '👊 {} pushed {} {} to {} \n\n'.format(
+        message = '👊 {} pushed {} {} to {} {}\n\n'.format(
             self.sender.login,
             len(self.commits),
             "commits" if len(self.commits) > 1 else "commit",
-            payload['ref']
+            payload['ref'],
+            '<a href="{}">({})</a>'.format(payload['repository']['html_url'], payload['repository']['full_name']) if not chat['verbose'] else ""
         )
 
         # Compose lists of added|removed|modified filenames
@@ -109,22 +110,25 @@ class EventPush(EventBase):
                     if modified_file not in modified:
                         modified.append(modified_file)
 
-        if len(added):
-            message += '\nNew files: \n'
-            for file_name in added:
-                message += html.escape(file_name) + '\n'
+        if chat['verbose']:
+            if len(added):
+                message += '\nNew files: \n'
+                for file_name in added:
+                    message += html.escape(file_name) + '\n'
 
-        if len(removed):
-            message += '\nRemoved files: \n'
-            for file_name in removed:
-                message += html.escape(file_name) + '\n'
+            if len(removed):
+                message += '\nRemoved files: \n'
+                for file_name in removed:
+                    message += html.escape(file_name) + '\n'
 
-        if len(modified):
-            message += '\nModified files: \n'
-            for file_name in modified:
-                message += html.escape(file_name) + '\n'
+            if len(modified):
+                message += '\nModified files: \n'
+                for file_name in modified:
+                    message += html.escape(file_name) + '\n'
 
-        message += '\n ' + payload['compare']
+            message += '\n ' + payload['compare']
+        else:
+            message += '\n<a href="{}">[show diff]</a>'.format(payload['compare'], payload['repository']['full_name'])
 
         await self.send(
             chat['chat'],

@@ -22,7 +22,8 @@ class ChatController:
                 'user': user_token,
                 'bot': bot_id,
                 'dt_register': time(),
-                'branch': "*"
+                'branch': "*",
+                'verbose': True
             }
             self.sdk.log("New user registered with token {}".format(user_token))
             self.sdk.db.insert(USERS_COLLECTION_NAME, new_chat)
