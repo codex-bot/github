@@ -1,4 +1,4 @@
-aioamqp==0.10.0
+aioamqp==0.14.0
 requests
 pymongo
 apscheduler
