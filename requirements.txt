@@ -9,7 +9,7 @@ aiohttp==2.0.7
   - yarl [required: >=0.10.0,<0.11, installed: 0.10.1]
     - multidict [required: >=2.0, installed: 2.1.4]
 asyncio==3.4.3
-pika==0.10.0
+pika==1.1.0
 pipdeptree==0.10.1
   - pip [required: >=6.0.0, installed: 9.0.1]
 setuptools==35.0.2
