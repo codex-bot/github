@@ -12,7 +12,7 @@ asyncio==3.4.3
 pika==0.10.0
 pipdeptree==0.10.1
   - pip [required: >=6.0.0, installed: 9.0.1]
-setuptools==35.0.2
+setuptools==46.4.0
   - appdirs [required: >=1.4.0, installed: 1.4.3]
   - packaging [required: >=16.8, installed: 16.8]
     - pyparsing [required: Any, installed: 2.2.0]
