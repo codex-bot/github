@@ -142,9 +142,10 @@ class EventPullRequest(EventBase):
         :param payload: GitHub payload
         :return:
         """
-        message = "😾 {name} closed pull request «<code>{title}</code>» " \
+        message = "{merged_emoji} {name} closed pull request «<code>{title}</code>» " \
                   "from <b>{head}</b> to <b>{base}</b>" \
                   "[<a href=\"{repository_url}\">{repository_name}</a>]".format(
+                    merged_emoji="😺" if self.pull_request.merged else "😾",
                     name=self.sender.login,
                     title=html.escape(self.pull_request.title),
                     head=self.pull_request.head.ref,

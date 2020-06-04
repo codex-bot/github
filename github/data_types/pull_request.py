@@ -68,6 +68,9 @@ class PullRequest:
         if 'sender' in data:
             self.sender = User(data['sender'])
 
+        # Is this request closed or merged
+        self.merged = data.get("merged", False)
+
         # Head branch
         self.head = None
         if 'head' in data:
