@@ -23,6 +23,8 @@ class PullRequest:
         user:           pull request author
         sender:         pull request sender
 
+        merged:         whether this request closed or merged
+
         created_at:     Opening time
         closed_at:      Closing time. Null by default
         updated_at:     Updating time
@@ -67,6 +69,9 @@ class PullRequest:
         self.sender = None
         if 'sender' in data:
             self.sender = User(data['sender'])
+
+        # Whether this request closed or merged
+        self.merged = data.get("merged", False)
 
         # Head branch
         self.head = None
