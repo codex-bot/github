@@ -4,7 +4,7 @@ import logging
 from commands.branch import CommandBranch
 from events.fork import EventFork
 from sdk.codexbot_sdk import CodexBot
-from config import APPLICATION_TOKEN, APPLICATION_NAME, DB, URL, SERVER
+from config import APPLICATION_TOKEN, APPLICATION_NAME, DB, URL, SERVER, HAWK_CATCHER_SETTINGS
 from config import USERS_COLLECTION_NAME
 from commands.help import CommandHelp
 from commands.start import CommandStart
@@ -16,13 +16,14 @@ from events.issue_comment import EventIssueComment
 from events.pull_request import EventPullRequest
 from events.pull_request_review import EventPullRequestReview
 from events.watch import EventWatch
+from hawkcatcher import Hawk
 
 
 class Github:
 
     def __init__(self):
 
-        self.sdk = CodexBot(APPLICATION_NAME, SERVER['host'], SERVER['port'], db_config=DB, token=APPLICATION_TOKEN)
+        self.sdk = CodexBot(APPLICATION_NAME, SERVER['host'], SERVER['port'], db_config=DB, token=APPLICATION_TOKEN, hawk_params=HAWK_CATCHER_SETTINGS)
 
         self.sdk.log("Github module initialized")
 
@@ -99,6 +100,7 @@ class Github:
 
         except Exception as e:
             self.sdk.log('Cannot handle request from GitHub: {}'.format(e))
+
             return {
                 'status': 404
             }
