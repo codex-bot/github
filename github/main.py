@@ -100,6 +100,7 @@ class Github:
 
         except Exception as e:
             self.sdk.log('Cannot handle request from GitHub: {}'.format(e))
+            self.sdk.hawk.catch()
 
             return {
                 'status': 404
