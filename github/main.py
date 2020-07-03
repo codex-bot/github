@@ -9,6 +9,7 @@ from config import USERS_COLLECTION_NAME
 from commands.help import CommandHelp
 from commands.start import CommandStart
 from commands.link import CommandLink
+from commands.verbose import CommandVerbose
 from events.ping import EventPing
 from events.push import EventPush
 from events.issues import EventIssues
@@ -33,7 +34,8 @@ class Github:
             ('github_help', 'help', CommandHelp(self.sdk)),
             ('github_start', 'start', CommandStart(self.sdk)),
             ('github_link', 'link', CommandLink(self.sdk)),
-            ('github_branch', 'branch', CommandBranch(self.sdk))
+            ('github_branch', 'branch', CommandBranch(self.sdk)),
+            ('github_verbose', 'verbose', CommandVerbose(self.sdk)),
         ])
 
         self.sdk.set_routes([
