@@ -77,13 +77,14 @@ class EventPush(EventBase):
             self.sdk.log("Exception: {}".format(e))
 
         # Start building message
+        verbose_output = chat.get("verbose", False)
 
         message = '👊 {} pushed {} {} to {} {}\n\n'.format(
             self.sender.login,
             len(self.commits),
             "commits" if len(self.commits) > 1 else "commit",
             payload['ref'],
-            '<a href="{}">({})</a>'.format(payload['repository']['html_url'], payload['repository']['full_name']) if not chat['verbose'] else ""
+            '<a href="{}">({})</a>'.format(payload['repository']['html_url'], payload['repository']['full_name']) if not verbose_output else ""
         )
 
         # Compose lists of added|removed|modified filenames
@@ -110,7 +111,7 @@ class EventPush(EventBase):
                     if modified_file not in modified:
                         modified.append(modified_file)
 
-        if chat['verbose']:
+        if verbose_output:
             if len(added):
                 message += '\nNew files: \n'
                 for file_name in added:
