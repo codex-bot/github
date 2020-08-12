@@ -88,9 +88,15 @@ class Github:
             }
 
         try:
-            # GitHub always pass JSON as request body
+            # GitHub might pass JSON as request body
             payload = json.loads(request['text'])
+        except Exception as e:
+            self.sdk.log('Payload from GitHub is not JSON: {}'.format(e))
+            return {
+                'status': 400
+            }
 
+        try:
             # Call event handler
             events[event_name].set_bot(registered_chat)
             await events[event_name].process(payload, registered_chat)
@@ -105,7 +111,7 @@ class Github:
             self.sdk.hawk.catch()
 
             return {
-                'status': 404
+                'status': 500
             }
 
 
