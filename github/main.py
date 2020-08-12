@@ -92,6 +92,8 @@ class Github:
             payload = json.loads(request['text'])
         except Exception as e:
             self.sdk.log('Payload from GitHub is not JSON: {}'.format(e))
+            self.sdk.hawk.catch()
+
             return {
                 'status': 400
             }
