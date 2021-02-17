@@ -10,7 +10,7 @@ aiohttp==2.0.7
     - multidict [required: >=2.0, installed: 2.1.4]
 asyncio==3.4.3
 pika==0.10.0
-pipdeptree==0.10.1
+pipdeptree==0.13.2
   - pip [required: >=6.0.0, installed: 9.0.1]
 setuptools==35.0.2
   - appdirs [required: >=1.4.0, installed: 1.4.3]
