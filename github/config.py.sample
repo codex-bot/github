@@ -33,3 +33,12 @@ We will store user-to-chat linking in this collection
 _id | chat | user | dt_register
 """
 USERS_COLLECTION_NAME = ''
+
+HAWK_CATCHER_SETTINGS = None
+"""HAWK_CATCHER_SETTINGS = {
+    'token': '...',
+    'host': 'k1.hawk.so',
+    'path': '/',
+    'secure': True,
+}
+"""
