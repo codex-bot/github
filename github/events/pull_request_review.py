@@ -82,7 +82,7 @@ class EventPullRequestReview(EventBase):
                     pull_request=self.pull_request.title
         ) + "\n\n"
 
-        if self.review.body is not None:
+        if self.review.body:
             message += html.escape(self.review.body) + "\n\n"
 
         message += self.pull_request.html_url
@@ -106,7 +106,7 @@ class EventPullRequestReview(EventBase):
                     pull_request=self.pull_request.title
         ) + "\n\n"
 
-        if self.review.body is not None:
+        if self.review.body:
             message += html.escape(self.review.body) + "\n\n"
 
         message += self.pull_request.html_url
@@ -130,7 +130,7 @@ class EventPullRequestReview(EventBase):
                     pull_request=self.pull_request.title
         ) + "\n\n"
 
-        if self.review.body is not None:
+        if self.review.body:
             message += html.escape(self.review.body) + "\n\n"
 
         message += self.pull_request.html_url
