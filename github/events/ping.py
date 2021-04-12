@@ -1,4 +1,5 @@
 from data_types.hook import Hook
+from data_types.organization import Organization
 from data_types.repository import Repository
 from data_types.user import User
 from .base import EventBase
@@ -33,8 +34,16 @@ class EventPing(EventBase):
 
         self.sdk.log("Ping event payload taken {}".format(payload))
 
-        try:
+        if "repository" in payload:
+            await self.process_repository_event(payload, chat)
+        elif "organization" in payload:
+            await self.process_organization_event(payload, chat)
+        else:
+            self.sdk.log('Payload from GitHub does not contain neigher repository nor organization')
+            self.sdk.hawk.catch()
 
+    async def process_repository_event(self, payload, chat):
+        try:
             self.repository = Repository(payload['repository'])
             self.sender = User(payload['sender'])
             self.hook = Hook(payload['hook'])
@@ -45,5 +54,19 @@ class EventPing(EventBase):
         await self.send(
             chat['chat'],
             '👏 Repository {} successfully linked. Boom.'.format(self.repository.full_name),
+            'HTML'
+        )
+
+    async def process_organization_event(self, payload, chat):
+        try:
+            self.organization = Organization(payload['organization'])
+            self.hook = Hook(payload['hook'])
+
+        except Exception as e:
+            self.sdk.log('Cannot process PingEvent payload because of {}'.format(e))
+
+        await self.send(
+            chat['chat'],
+            '👏 Organization {} successfully linked. Boom.'.format(self.organization.login),
             'HTML'
         )
