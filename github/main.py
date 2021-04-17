@@ -3,6 +3,7 @@ import logging
 
 from commands.branch import CommandBranch
 from events.fork import EventFork
+from events.repository import EventRepository
 from sdk.codexbot_sdk import CodexBot
 from config import APPLICATION_TOKEN, APPLICATION_NAME, DB, URL, SERVER, HAWK_CATCHER_SETTINGS
 from config import USERS_COLLECTION_NAME
@@ -78,7 +79,8 @@ class Github:
             'issues': EventIssues(self.sdk),
             'issue_comment': EventIssueComment(self.sdk),
             'pull_request': EventPullRequest(self.sdk),
-            'pull_request_review': EventPullRequestReview(self.sdk)
+            'pull_request_review': EventPullRequestReview(self.sdk),
+            'repository': EventRepository(self.sdk)
         }
 
         if event_name not in events:
