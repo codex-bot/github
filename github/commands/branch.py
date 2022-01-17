@@ -1,5 +1,5 @@
 from classes.chat_controller import ChatController
-from config import URL, USERS_COLLECTION_NAME
+from settings import URL, USERS_COLLECTION_NAME
 from .base import CommandBase
 
 

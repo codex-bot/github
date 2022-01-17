@@ -26,6 +26,7 @@ pika==0.10.0
 pipdeptree==0.10.1
 pymongo==3.11.4
 pyparsing==3.0.6
+python-dotenv==0.19.2
 pytz==2021.3
 pytz-deprecation-shim==0.1.0.post0
 PyYAML==6.0
