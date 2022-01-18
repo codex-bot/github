@@ -1,5 +1,5 @@
 from classes.chat_controller import ChatController
-from config import URL
+from settings import URL
 from .base import CommandBase
 
 

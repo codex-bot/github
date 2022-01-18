@@ -2,7 +2,7 @@ import random
 import string
 from time import time
 
-from config import USERS_COLLECTION_NAME
+from settings import USERS_COLLECTION_NAME
 
 
 class ChatController:
