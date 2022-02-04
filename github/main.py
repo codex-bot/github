@@ -25,7 +25,7 @@ class Github:
 
     def __init__(self):
 
-        self.sdk = CodexBot(APPLICATION_NAME, SERVER['host'], SERVER['port'], db_config=DB, rabbitmq_host=RABBITMQ, token=APPLICATION_TOKEN, hawk_token=HAWK_CATCHER_SETTINGS)
+        self.sdk = CodexBot(APPLICATION_NAME, SERVER['host'], SERVER['port'], db_config=DB, rabbitmq_url=RABBITMQ, token=APPLICATION_TOKEN, hawk_token=HAWK_CATCHER_SETTINGS)
 
         self.sdk.log("Github module initialized")
 
