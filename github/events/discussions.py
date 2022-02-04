@@ -73,8 +73,6 @@ class EventDiscussions(EventBase):
 
         message += self.discussion.html_url
 
-        message += self.discussion.category.name
-
         await self.send(
             chat_id,
             message,
