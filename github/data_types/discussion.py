@@ -8,7 +8,6 @@ class Discussion:
     Attributes:
         id: Discussion id
         title: Discussion title
-        body: Issue body text
         html_url: Public URL for discussion on github.com
         number: Issue's number in repository
         user: Issue opener User object
@@ -21,7 +20,7 @@ class Discussion:
         # Internal GitHub id
         self.id = data.get('id', 0)
 
-        # Title and Body
+        # Title
         self.title = data.get('title', '')
 
         # Public link

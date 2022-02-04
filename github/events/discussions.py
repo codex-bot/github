@@ -45,6 +45,7 @@ class EventDiscussions(EventBase):
 
         available_actions = {
             'created': self.created,
+            'deleted': self.deleted,
         }
 
         if action not in available_actions:
@@ -76,3 +77,25 @@ class EventDiscussions(EventBase):
             message,
             'HTML'
         )
+
+    async def deleted(self, chat_id, payload):
+        """
+        Discussion deleted action
+        :param chat_id: Current user chat token
+        :param payload: GitHub payload
+        :return:
+        """
+
+        message = "✏️ {} deleted discussion «<code>{}</code>» [<a href=\"{}\">{}</a>]".format(
+                        self.sender.login,
+                        html.escape(self.discussion.title),
+                        self.repository.html_url,
+                        self.repository.name
+                    ) + "\n\n"
+
+        await self.send(
+            chat_id,
+            message,
+            'HTML'
+        )
+
