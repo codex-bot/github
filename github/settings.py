@@ -14,7 +14,7 @@ SERVER = {
     'port': int(os.environ.get("SERVER_PORT"))
 }
 
-RABBITMQ = os.environ.get("RABBITMQ_HOST")
+RABBITMQ = os.environ.get("RABBITMQ_URL")
 
 DB = {
     'name': os.environ.get("DATABASE_NAME"),
