@@ -9,4 +9,6 @@ RUN pip install -r requirements.txt
 
 COPY . .
 
+WORKDIR /home/github/github
+
 CMD ["python", "main.py"]
