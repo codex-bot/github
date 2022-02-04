@@ -3,7 +3,7 @@ name: Build and push docker image
 on: [push]
 
 env:
-  DOCKER_REPO: codex-team/codex-bot-github
+  DOCKER_REPO: codex-bot/codex-bot-github
 
 jobs:
   build:
