@@ -63,7 +63,8 @@ class EventDiscussions(EventBase):
         :return:
         """
 
-        message = "✏️ {} created new discussion «<code>{}</code>» [<a href=\"{}\">{}</a>]".format(
+        message = "✏️{}: {} created new discussion «<code>{}</code>» [<a href=\"{}\">{}</a>]".format(
+                        self.discussion.category.name,
                         self.sender.login,
                         html.escape(self.discussion.title),
                         self.repository.html_url,
@@ -71,6 +72,8 @@ class EventDiscussions(EventBase):
                     ) + "\n\n"
 
         message += self.discussion.html_url
+
+        message += self.discussion.category.name
 
         await self.send(
             chat_id,

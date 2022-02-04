@@ -1,5 +1,5 @@
 from data_types.user import User
-
+from data_types.category import Category
 
 class Discussion:
     """
@@ -9,10 +9,8 @@ class Discussion:
         id: Discussion id
         title: Discussion title
         html_url: Public URL for discussion on github.com
-        number: Issue's number in repository
-        user: Issue opener User object
-
-        created_at: Opening time
+        number: Discussion's number in repository
+        user: Discussion creator User object
     """
 
     def __init__(self, data):
@@ -29,10 +27,10 @@ class Discussion:
         # Number in repository
         self.number = data.get('number', '')
 
+        # Category
+        self.category = Category(data['category'])
+
         # Who created
         self.user = None
         if 'user' in data:
             self.user = User(data['user'])
-
-        # Dates
-        self.created_at = data.get('created_at', '')
