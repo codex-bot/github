@@ -14,6 +14,7 @@ from commands.verbose import CommandVerbose
 from events.ping import EventPing
 from events.push import EventPush
 from events.issues import EventIssues
+from events.discussions import EventDiscussions
 from events.issue_comment import EventIssueComment
 from events.pull_request import EventPullRequest
 from events.pull_request_review import EventPullRequestReview
@@ -80,7 +81,8 @@ class Github:
             'issue_comment': EventIssueComment(self.sdk),
             'pull_request': EventPullRequest(self.sdk),
             'pull_request_review': EventPullRequestReview(self.sdk),
-            'repository': EventRepository(self.sdk)
+            'repository': EventRepository(self.sdk),
+            'discussion': EventDiscussions(self.sdk)
         }
 
         if event_name not in events:
