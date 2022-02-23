@@ -8,8 +8,14 @@ class CommandHelp(CommandBase):
 
         self.set_bot(payload)
 
-        message = "This GitHub app allows you stay in touch with all updates for your repository.\n" \
-                  "You won't miss any issue, assignee, pull request or approve."
+        message = "This GitHub app allows you stay in touch with all updates for your repository. " \
+                  "You won't miss any issue, assignee, pull request or approve.\n" \
+                  "To work with the github_bot you can use these commands:\n" \
+                  "  - To connect new repository use: /github_start\n" \
+                  "  - To set verbosity mode use: /github_verbose\n" \
+                  "  - To get link to the chat use: /github_link\n" \
+                  "  - To receive notifications from a branch use: /github_branch\n" \
+                  "  - To get help use: /github_help"
 
         # TODO get repos list
         # repositories = list()
