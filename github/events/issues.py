@@ -66,11 +66,11 @@ class EventIssues(EventBase):
         """
 
         message = "✏️ {} opened new issue «<code>{}</code>» [<a href=\"{}\">{}</a>]".format(
-                        self.sender.login,
-                        html.escape(self.issue.title),
-                        self.repository.html_url,
-                        self.repository.name
-                    ) + "\n\n"
+            self.sender.login,
+            html.escape(self.issue.title),
+            self.repository.html_url,
+            self.repository.name
+        ) + "\n\n"
 
         # if len(self.issue.body):
         #     message += html.escape(self.issue.body) + "\n\n"
@@ -119,12 +119,13 @@ class EventIssues(EventBase):
         assignee = User(payload['assignee'])
 
         message = "📌 {assignee} has been assigned to the issue «<code>{issue_title}</code>» " \
-                  "by {author} [{repository_name}]".format(
-                    assignee=assignee.login,
-                    author=self.sender.login,
-                    issue_title=html.escape(self.issue.title),
-                    repository_name=self.repository.name
-        ) + "\n\n"
+                  "by {author} [<a href=\"{repository_html}\">{repository_name}</a>]".format(
+                        assignee=assignee.login,
+                        author=self.sender.login,
+                        issue_title=html.escape(self.issue.title),
+                        repository_html=self.repository.html_url,
+                        repository_name=self.repository.name
+                    ) + "\n\n"
 
         message += self.issue.html_url
 
