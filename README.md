@@ -15,7 +15,7 @@ Useful integration with github.com. Provides notifications about
 
 Type `/github_start` and follow instructions to add a new repository.
 
-![](https://capella.pics/de15cea7-d234-4ddb-9923-c76fa0ec803a)
+![](assets/demo.jpeg)
 
 ## Issues and improvements
 
