@@ -87,3 +87,5 @@ ENV/
 .idea/vcs.xml
 
 config.py
+
+.DS_Store
