@@ -81,7 +81,7 @@ class Github:
             'push': EventPush(self.sdk),
             'issues': EventIssues(self.sdk),
             'issue_comment': EventIssueComment(self.sdk),
-            'labels': EventLabels(self.sdk),
+            'label': EventLabels(self.sdk),
             'pull_request': EventPullRequest(self.sdk),
             'pull_request_review': EventPullRequestReview(self.sdk),
             'repository': EventRepository(self.sdk),
@@ -126,4 +126,6 @@ class Github:
 
 
 if __name__ == "__main__":
+    logger = logging.getLogger(__name__)
+    logger.setLevel(logging.DEBUG)
     github = Github()
