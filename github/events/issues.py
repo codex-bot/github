@@ -3,6 +3,7 @@ import html
 from data_types.issue import Issue
 from data_types.repository import Repository
 from data_types.user import User
+from data_types.label import Label
 from .base import EventBase
 
 
@@ -47,7 +48,8 @@ class EventIssues(EventBase):
         available_actions = {
             'opened': self.opened,
             'closed': self.closed,
-            'assigned': self.assigned
+            'assigned': self.assigned,
+            'labeled': self.labeled
         }
 
         if action not in available_actions:
@@ -121,6 +123,33 @@ class EventIssues(EventBase):
         message = "📌 {assignee} has been assigned to the issue «<code>{issue_title}</code>» " \
                   "by {author} [<a href=\"{repository_html}\">{repository_name}</a>]".format(
                         assignee=assignee.login,
+                        author=self.sender.login,
+                        issue_title=html.escape(self.issue.title),
+                        repository_html=self.repository.html_url,
+                        repository_name=self.repository.name
+                    ) + "\n\n"
+
+        message += self.issue.html_url
+
+        await self.send(
+            chat_id,
+            message,
+            'HTML'
+        )
+
+    async def labeled(self, chat_id, payload):
+        """
+        Issue labeled action
+        :param chat_id: Current user chat token
+        :param payload: GitHub payload
+        :return:
+        """
+
+        label = Label(payload['label'])
+
+        message = "Issue «<code>{issue_title}</code>» was labeled as <b>{label}</b>" \
+                  "by {author} [<a href=\"{repository_html}\">{repository_name}</a>]".format(
+                        label=label.name,
                         author=self.sender.login,
                         issue_title=html.escape(self.issue.title),
                         repository_html=self.repository.html_url,
