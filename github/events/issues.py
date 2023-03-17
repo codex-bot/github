@@ -39,7 +39,7 @@ class EventIssues(EventBase):
         try:
             self.issue = Issue(payload['issue'])
             self.repository = Repository(payload['repository'])
-            self.organization = Repository(payload['organization'])
+            self.organization = Organization(payload['organization'])
             self.sender = User(payload['sender'])
 
         except Exception as e:

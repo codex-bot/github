@@ -38,7 +38,7 @@ class EventDiscussions(EventBase):
         try:
             self.discussion = Discussion(payload['discussion'])
             self.repository = Repository(payload['repository'])
-            self.organization = Repository(payload['organization'])
+            self.organization = Organization(payload['organization'])
             self.sender = User(payload['sender'])
 
         except Exception as e:
