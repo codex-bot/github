@@ -2,8 +2,10 @@ import html
 
 from data_types.pull_request import PullRequest
 from data_types.repository import Repository
+from data_types.organization import Organization
 from data_types.user import User
 from data_types.team import Team
+from data_types.label import Label
 from .base import EventBase
 
 
@@ -54,6 +56,7 @@ class EventPullRequest(EventBase):
         try:
             self.pull_request = PullRequest(payload['pull_request'])
             self.repository = Repository(payload['repository'])
+            self.organization = Organization(payload['organization'])
             self.sender = User(payload['sender'])
 
         except Exception as e:
@@ -65,7 +68,8 @@ class EventPullRequest(EventBase):
             'opened': self.opened,
             'reopened': self.reopened,
             'closed': self.closed,
-            'review_requested': self.review_requested
+            'review_requested': self.review_requested,
+            'labeled': self.labeled
         }
 
         if action not in available_actions:
@@ -194,6 +198,32 @@ class EventPullRequest(EventBase):
                     repository_url=self.repository.html_url,
                     repository_name=self.repository.full_name
         )
+
+        await self.send(
+            chat_id,
+            message,
+            'HTML'
+        )
+
+    async def labeled(self, chat_id, payload):
+        """
+        Pull request labeled action
+        :param chat_id: Current user chat token
+        :param payload: GitHub payload
+        :return:
+        """
+
+        label = Label(payload['label'])
+
+        message = "🏷 PR <a href=\"{pull_request_url}\">{pull_request_title}</a> was labeled as <b>{label}</b> — " \
+                  "{author} at {organization_login}/{repository_name}".format(
+                        pull_request_url=self.pull_request.html_url,
+                        pull_request_title=html.escape(self.pull_request.title),
+                        label=label.name,
+                        author=self.sender.login,
+                        organization_login=self.organization.login,
+                        repository_name=self.repository.name
+                    )
 
         await self.send(
             chat_id,

@@ -2,7 +2,9 @@ import html
 
 from data_types.issue import Issue
 from data_types.repository import Repository
+from data_types.organization import Organization
 from data_types.user import User
+from data_types.label import Label
 from .base import EventBase
 
 
@@ -37,6 +39,7 @@ class EventIssues(EventBase):
         try:
             self.issue = Issue(payload['issue'])
             self.repository = Repository(payload['repository'])
+            self.organization = Organization(payload['organization'])
             self.sender = User(payload['sender'])
 
         except Exception as e:
@@ -47,7 +50,8 @@ class EventIssues(EventBase):
         available_actions = {
             'opened': self.opened,
             'closed': self.closed,
-            'assigned': self.assigned
+            'assigned': self.assigned,
+            'labeled': self.labeled
         }
 
         if action not in available_actions:
@@ -129,6 +133,32 @@ class EventIssues(EventBase):
 
         message += self.issue.html_url
 
+        await self.send(
+            chat_id,
+            message,
+            'HTML'
+        )
+
+    async def labeled(self, chat_id, payload):
+        """
+        Issue labeled action
+        :param chat_id: Current user chat token
+        :param payload: GitHub payload
+        :return:
+        """
+
+        label = Label(payload['label'])
+
+        message = "🏷 Issue <a href=\"{issue_url}\">{issue_title}</a> was labeled as <b>{label}</b> — " \
+                  "{author} at {organization_login}/{repository_name}".format(
+                        issue_url=self.issue.html_url,
+                        issue_title=html.escape(self.issue.title),
+                        label=label.name,
+                        author=self.sender.login,
+                        organization_login=self.organization.login,
+                        repository_name=self.repository.name
+                    )
+        
         await self.send(
             chat_id,
             message,

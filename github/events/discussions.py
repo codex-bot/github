@@ -2,7 +2,9 @@ import html
 
 from data_types.discussion import Discussion
 from data_types.repository import Repository
+from data_types.organization import Organization
 from data_types.user import User
+from data_types.label import Label
 from .base import EventBase
 
 
@@ -36,6 +38,7 @@ class EventDiscussions(EventBase):
         try:
             self.discussion = Discussion(payload['discussion'])
             self.repository = Repository(payload['repository'])
+            self.organization = Organization(payload['organization'])
             self.sender = User(payload['sender'])
 
         except Exception as e:
@@ -46,6 +49,7 @@ class EventDiscussions(EventBase):
         available_actions = {
             'created': self.created,
             'deleted': self.deleted,
+            'labeled': self.labeled
         }
 
         if action not in available_actions:
@@ -93,6 +97,33 @@ class EventDiscussions(EventBase):
                         self.repository.html_url,
                         self.repository.name
                     ) + "\n\n"
+
+        await self.send(
+            chat_id,
+            message,
+            'HTML'
+        )
+
+    async def labeled(self, chat_id, payload):
+        """
+        Discussion labeled action
+        :param chat_id: Current user chat token
+        :param payload: GitHub payload
+        :return:
+        """
+
+        label = Label(payload['label'])
+
+        message = "🏷 Discussion <a href=\"{discussion_url}\">{discussion_category}: {discussion_title}</a> was labeled as <b>{label}</b> — " \
+                  "{author} at {organization_login}/{repository_name}".format(
+                        discussion_url=self.discussion.html_url,
+                        discussion_category=self.discussion.category.name,
+                        discussion_title=html.escape(self.discussion.title),
+                        label=label.name,
+                        author=self.sender.login,
+                        organization_login=self.organization.login,
+                        repository_name=self.repository.name
+                    )
 
         await self.send(
             chat_id,
