@@ -16,18 +16,18 @@ from events.push import EventPush
 from events.issues import EventIssues
 from events.discussions import EventDiscussions
 from events.issue_comment import EventIssueComment
+from events.labels import EventLabels
 from events.discussion_comment import EventDiscussionComment
 from events.pull_request import EventPullRequest
 from events.pull_request_review import EventPullRequestReview
 from events.watch import EventWatch
-from hawkcatcher import Hawk
 
 
 class Github:
 
     def __init__(self):
 
-        self.sdk = CodexBot(APPLICATION_NAME, SERVER['host'], SERVER['port'], db_config=DB, rabbitmq_host=RABBITMQ, token=APPLICATION_TOKEN, hawk_token=HAWK_CATCHER_SETTINGS)
+        self.sdk = CodexBot(APPLICATION_NAME, SERVER['host'], SERVER['port'], db_config=DB, rabbitmq_url=RABBITMQ, token=APPLICATION_TOKEN, hawk_token=HAWK_CATCHER_SETTINGS)
 
         self.sdk.log("Github module initialized")
 
@@ -80,6 +80,7 @@ class Github:
             'push': EventPush(self.sdk),
             'issues': EventIssues(self.sdk),
             'issue_comment': EventIssueComment(self.sdk),
+            'label': EventLabels(self.sdk),
             'pull_request': EventPullRequest(self.sdk),
             'pull_request_review': EventPullRequestReview(self.sdk),
             'repository': EventRepository(self.sdk),
