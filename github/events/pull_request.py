@@ -223,9 +223,7 @@ class EventPullRequest(EventBase):
                         author=self.sender.login,
                         organization_login=self.organization.login,
                         repository_name=self.repository.name
-                    ) + "\n\n"
-
-        message += self.pull_request.html_url
+                    )
 
         await self.send(
             chat_id,

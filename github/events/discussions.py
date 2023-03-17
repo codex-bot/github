@@ -123,9 +123,7 @@ class EventDiscussions(EventBase):
                         author=self.sender.login,
                         organization_login=self.organization.login,
                         repository_name=self.repository.name
-                    ) + "\n\n"
-
-        message += self.discussion.html_url
+                    )
 
         await self.send(
             chat_id,
