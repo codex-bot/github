@@ -2,6 +2,7 @@ import html
 
 from data_types.issue import Issue
 from data_types.repository import Repository
+from data_types.organization import Organization
 from data_types.user import User
 from data_types.label import Label
 from .base import EventBase
@@ -38,6 +39,7 @@ class EventIssues(EventBase):
         try:
             self.issue = Issue(payload['issue'])
             self.repository = Repository(payload['repository'])
+            self.organization = Repository(payload['organization'])
             self.sender = User(payload['sender'])
 
         except Exception as e:
@@ -147,12 +149,13 @@ class EventIssues(EventBase):
 
         label = Label(payload['label'])
 
-        message = "🏷 Issue «<code>{issue_title}</code>» was labeled as <b>{label}</b> " \
-                  "by {author} [<a href=\"{repository_html}\">{repository_name}</a>]".format(
+        message = "🏷 Issue <a href=\"{issue_url}\">{issue_title}</a> was labeled as <b>{label}</b> — " \
+                  "{author} at {organization_login}/{repository_name}".format(
+                        issue_url=self.issue.html_url,
+                        issue_title=html.escape(self.issue.title),
                         label=label.name,
                         author=self.sender.login,
-                        issue_title=html.escape(self.issue.title),
-                        repository_html=self.repository.html_url,
+                        organization_login=self.organization.login,
                         repository_name=self.repository.name
                     ) + "\n\n"
 

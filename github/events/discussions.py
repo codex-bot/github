@@ -2,6 +2,7 @@ import html
 
 from data_types.discussion import Discussion
 from data_types.repository import Repository
+from data_types.organization import Organization
 from data_types.user import User
 from data_types.label import Label
 from .base import EventBase
@@ -37,6 +38,7 @@ class EventDiscussions(EventBase):
         try:
             self.discussion = Discussion(payload['discussion'])
             self.repository = Repository(payload['repository'])
+            self.organization = Repository(payload['organization'])
             self.sender = User(payload['sender'])
 
         except Exception as e:
@@ -112,13 +114,14 @@ class EventDiscussions(EventBase):
 
         label = Label(payload['label'])
 
-        message = "🏷 Discussion «<code>{discussion_category}: {discussion_title}</code>» was labeled as <b>{label}</b> " \
-                  "by {author} [<a href=\"{repository_html}\">{repository_name}</a>]".format(
-                        label=label.name,
-                        author=self.sender.login,
+        message = "🏷 Discussion <a href=\"{discussion_url}\">{discussion_category}: {discussion_title}</a> was labeled as <b>{label}</b> — " \
+                  "{author} at {organization_login}/{repository_name}".format(
+                        discussion_url=self.discussion.html_url,
                         discussion_category=self.discussion.category.name,
                         discussion_title=html.escape(self.discussion.title),
-                        repository_html=self.repository.html_url,
+                        label=label.name,
+                        author=self.sender.login,
+                        organization_login=self.organization.login,
                         repository_name=self.repository.name
                     ) + "\n\n"
 
