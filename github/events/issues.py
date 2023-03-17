@@ -147,7 +147,7 @@ class EventIssues(EventBase):
 
         label = Label(payload['label'])
 
-        message = "Issue «<code>{issue_title}</code>» was labeled as <b>{label}</b>" \
+        message = "🎨 Issue «<code>{issue_title}</code>» was labeled as <b>{label}</b> " \
                   "by {author} [<a href=\"{repository_html}\">{repository_name}</a>]".format(
                         label=label.name,
                         author=self.sender.login,

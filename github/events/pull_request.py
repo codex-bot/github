@@ -4,6 +4,7 @@ from data_types.pull_request import PullRequest
 from data_types.repository import Repository
 from data_types.user import User
 from data_types.team import Team
+from data_types.label import Label
 from .base import EventBase
 
 
@@ -65,7 +66,8 @@ class EventPullRequest(EventBase):
             'opened': self.opened,
             'reopened': self.reopened,
             'closed': self.closed,
-            'review_requested': self.review_requested
+            'review_requested': self.review_requested,
+            'labeled': self.labeled
         }
 
         if action not in available_actions:
@@ -194,6 +196,33 @@ class EventPullRequest(EventBase):
                     repository_url=self.repository.html_url,
                     repository_name=self.repository.full_name
         )
+
+        await self.send(
+            chat_id,
+            message,
+            'HTML'
+        )
+
+    async def labeled(self, chat_id, payload):
+        """
+        Pull request labeled action
+        :param chat_id: Current user chat token
+        :param payload: GitHub payload
+        :return:
+        """
+
+        label = Label(payload['label'])
+
+        message = "🎨 Pull request «<code>{pull_request_title}</code>» was labeled as <b>{label}</b> " \
+                  "by {author} [<a href=\"{repository_html}\">{repository_name}</a>]".format(
+                        label=label.name,
+                        author=self.sender.login,
+                        pull_request_title=html.escape(self.pull_request.title),
+                        repository_html=self.repository.html_url,
+                        repository_name=self.repository.name
+                    ) + "\n\n"
+
+        message += self.pull_request.html_url
 
         await self.send(
             chat_id,
