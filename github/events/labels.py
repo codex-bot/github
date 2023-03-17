@@ -1,6 +1,6 @@
 import html
 
-from data_types.issue import Label
+from data_types.label import Label
 from data_types.repository import Repository
 from data_types.user import User
 from .base import EventBase
