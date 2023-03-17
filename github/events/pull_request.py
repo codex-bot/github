@@ -213,7 +213,7 @@ class EventPullRequest(EventBase):
 
         label = Label(payload['label'])
 
-        message = "🎨 Pull request «<code>{pull_request_title}</code>» was labeled as <b>{label}</b> " \
+        message = "🏷 Pull request «<code>{pull_request_title}</code>» was labeled as <b>{label}</b> " \
                   "by {author} [<a href=\"{repository_html}\">{repository_name}</a>]".format(
                         label=label.name,
                         author=self.sender.login,

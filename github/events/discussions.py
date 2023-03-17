@@ -112,7 +112,7 @@ class EventDiscussions(EventBase):
 
         label = Label(payload['label'])
 
-        message = "🎨 Discussion «<code>{discussion_category}: {discussion_title}</code>» was labeled as <b>{label}</b> " \
+        message = "🏷 Discussion «<code>{discussion_category}: {discussion_title}</code>» was labeled as <b>{label}</b> " \
                   "by {author} [<a href=\"{repository_html}\">{repository_name}</a>]".format(
                         label=label.name,
                         author=self.sender.login,
