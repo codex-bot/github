@@ -73,7 +73,10 @@ class EventWorkflowRun(EventBase):
         :return:
         """
 
-        message = f"⚙️ GitHub Workflow <a href=\"{self.workflow.html_url}\">{self.workflow.name}</a> completed"
+        if self.workflow_run.conclusion == "success":
+            message = f"⚙️ GitHub Workflow <a href=\"{self.workflow_run.html_url}\">{self.workflow.name}</a> ✅"
+        else:
+            message = f"⚙️ GitHub Workflow <a href=\"{self.workflow_run.html_url}\">{self.workflow.name}</a> {self.workflow_run.conclusion} ❌"
 
         await self.send(
             chat_id,
