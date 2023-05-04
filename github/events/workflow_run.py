@@ -74,9 +74,9 @@ class EventWorkflowRun(EventBase):
         """
 
         if self.workflow_run.conclusion == "success":
-            message = f"⚙️ GitHub Workflow <a href=\"{self.workflow_run.html_url}\">{self.workflow.name}</a> ✅"
+            message = f"⚙️ Workflow <a href=\"{self.workflow_run.html_url}\">{self.workflow.name}</a> ✅"
         else:
-            message = f"⚙️ GitHub Workflow <a href=\"{self.workflow_run.html_url}\">{self.workflow.name}</a> {self.workflow_run.conclusion} ❌"
+            message = f"⚙️ Workflow <a href=\"{self.workflow_run.html_url}\">{self.workflow.name}</a> {self.workflow_run.conclusion} ❌"
 
         await self.send(
             chat_id,
