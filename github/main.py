@@ -21,6 +21,7 @@ from events.discussion_comment import EventDiscussionComment
 from events.pull_request import EventPullRequest
 from events.pull_request_review import EventPullRequestReview
 from events.watch import EventWatch
+from events.workflow_run import EventWorkflowRun
 
 
 class Github:
@@ -85,7 +86,8 @@ class Github:
             'pull_request_review': EventPullRequestReview(self.sdk),
             'repository': EventRepository(self.sdk),
             'discussion': EventDiscussions(self.sdk),
-            'discussion_comment': EventDiscussionComment(self.sdk)
+            'discussion_comment': EventDiscussionComment(self.sdk),
+            'workflow_run': EventWorkflowRun(self.sdk)
         }
 
         if event_name not in events:
